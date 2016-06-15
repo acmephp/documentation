@@ -52,22 +52,66 @@
         <div class="doc-menu">
             <nav role="navigation">
                 <ul class="doc-menu-list">
-                    {% for section in menu.sections %}
-                    <li>
-                        <h4 class="doc-menu-header">{{ section.name }}</h4>
+                                        <li>
+                        <h4 class="doc-menu-header">Command line tool</h4>
 
                         <ul class="doc-menu-sub">
-                            {% for itemId, item in section.items %}
-                                <li class="{{ itemId == currentMenu ? 'current' }}">
-                                    <a href="{{ item.absoluteUrl|default(baseUrl ~ '/' ~ item.relativeUrl) }}">
-                                        {{ item.text|raw }}
+                                                            <li class="">
+                                    <a href="https://acmephp.github.io/documentation/">
+                                        Introduction
                                     </a>
                                 </li>
-                            {% endfor %}
-                        </ul>
+                                                            <li class="">
+                                    <a href="https://acmephp.github.io/documentation/cli/install-usage.html">
+                                        Installation and usage
+                                    </a>
+                                </li>
+                                                            <li class="">
+                                    <a href="https://acmephp.github.io/documentation/cli/post-generate.html">
+                                        Post-generate actions
+                                    </a>
+                                </li>
+                                                            <li class="">
+                                    <a href="https://acmephp.github.io/documentation/cli/monitoring.html">
+                                        Monitoring
+                                    </a>
+                                </li>
+                                                    </ul>
                     </li>
-                    {% endfor %}
-                </ul>
+                                        <li>
+                        <h4 class="doc-menu-header">Symfony bundle (not ready)</h4>
+
+                        <ul class="doc-menu-sub">
+                                                            <li class="">
+                                    <a href="https://acmephp.github.io/documentation/symfony/install-usage.html">
+                                        Installation and usage
+                                    </a>
+                                </li>
+                                                    </ul>
+                    </li>
+                                        <li>
+                        <h4 class="doc-menu-header">Acme PHP library</h4>
+
+                        <ul class="doc-menu-sub">
+                                                            <li class="">
+                                    <a href="https://acmephp.github.io/documentation/core/install-usage.html">
+                                        Installation and usage
+                                    </a>
+                                </li>
+                                                    </ul>
+                    </li>
+                                        <li>
+                        <h4 class="doc-menu-header">SSL library</h4>
+
+                        <ul class="doc-menu-sub">
+                                                            <li class="current">
+                                    <a href="https://acmephp.github.io/documentation/ssl/install-usage.html">
+                                        Installation and usage
+                                    </a>
+                                </li>
+                                                    </ul>
+                    </li>
+                                    </ul>
             </nav>
         </div>
 
@@ -79,7 +123,25 @@
                 </a>
             </div>
 
-            {{ content|raw }}
+            <h1 id="acme-php-ssl">Acme PHP SSL</h1>
+<blockquote>
+<p>This library is a part of the <a href="https://github.com/acmephp">Acme PHP initiative</a>,
+aiming to intregrate <a href="https://github.com/acmephp">Let's Encrypt</a>
+in the PHP world at the application level.</p>
+</blockquote>
+<p>Acme PHP SSL is a PHP wrapper around OpenSSL extension providing SSL encoding,
+decoding, parsing and signing features.</p>
+<p>It uses the recommended security settings and let you interact in a OOP
+manner with SSL entities (public/private keys, certificates, ...).</p>
+<h2 id="why-use-acme-php-ssl">Why use Acme PHP SSL?</h2>
+<p>Acme PHP SSL provides various useful tools solving different use-cases:</p>
+<ul>
+<li>generate public and private keys (see the <code>Generator\KeyPairGenerator</code>) ;</li>
+<li>sign data using a private key (see <code>Signer\DataSigner</code>) ;</li>
+<li>parse certificates to extract informations about them (see <code>Parser\CertificateParser</code>) ;</li>
+</ul>
+<p>There are many more possible use-cases, don't hesitate to dig a bit deeper in the
+documentation to find out if this library can solve your problem!</p>
         </div>
 
         <div class="clearfix"></div>
