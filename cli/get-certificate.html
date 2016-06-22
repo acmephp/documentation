@@ -235,7 +235,24 @@ You most likely will use this file in your webserver.</li>
 <li><code>~/.acmephp/master/certs/yourdomain.org/combined.pem</code> contains the fullchain AND your domain private key (some
 webservers expect this format such as haproxy).</li>
 </ul>
-<p>You can continue in the documentation <a href="/documentation/cli/webserver.html">by configuring your webserver</a>.</p>
+<h2 id="4-list-your-certificates-and-their-status">4. List your certificates and their status</h2>
+<p>Using the command <code>./acmephp.phar status</code>, you can see what certificates are handled by the Acme PHP client
+and when they will expire. It's a useful tool to avoid expired certificates:</p>
+<pre><code class="language-console">./acmephp.phar status
+
++------------------------------+----------------------------+---------------------+---------------------+----------------+
+| Domain                       | Issuer                     | Valid from          | Valid to            | Needs renewal? |
++------------------------------+----------------------------+---------------------+---------------------+----------------+
+| acmephp.titouangalopin.com   | Let's Encrypt Authority X3 | 2016-06-17 13:08:00 | 2016-09-15 13:08:00 | No             |
++------------------------------+----------------------------+---------------------+---------------------+----------------+</code></pre>
+<h2 id="5-renew-a-certificate">5. Renew a certificate</h2>
+<p>If a certificate will expire soon, you will probably want to renew it. To do so, simply rerun the <code>request</code> command:</p>
+<pre><code class="language-console">./acmephp.phar request yourdomain.org</code></pre>
+<p>This time, the command won't ask you anything (all the required informations were stored at the first request).
+The certificate will be renewed.</p>
+<p>Please note that there may be a limit of renewals per day or week depending on the configuration of the ACME server.
+Let's Encrypt has this kind of limitation: renew only when required (one week before expiration for instance).</p>
+<p>Next: <a href="/documentation/cli/webserver.html">Configure your webserver</a></p>
         </div>
 
         <div class="clearfix"></div>
