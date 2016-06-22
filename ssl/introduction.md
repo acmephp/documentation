@@ -4,10 +4,6 @@ currentMenu: ssl-introduction
 
 # Acme PHP SSL
 
-> This library is a part of the [Acme PHP initiative](https://github.com/acmephp),
-> aiming to intregrate [Let's Encrypt](https://github.com/acmephp)
-> in the PHP world at the application level.
-
 Acme PHP SSL is a PHP wrapper around OpenSSL extension providing SSL encoding,
 decoding, parsing and signing features.
 

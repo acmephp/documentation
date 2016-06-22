@@ -13,31 +13,49 @@ menu:
             name: Command line tool
             items:
                 cli-introduction:
-                    text: Introduction
-                cli-install-usage:
-                    text: Installation and usage
-                    relativeUrl: cli/install-usage.html
-                cli-post-generate:
-                    text: Post-generate actions
-                    relativeUrl: cli/post-generate.html
+                    text: Introduction and installation
+                cli-get-certificate:
+                    text: Get a certificate
+                    relativeUrl: cli/get-certificate.html
+                cli-webserver:
+                    text: Configure your webserver
+                    relativeUrl: cli/webserver.html
+                cli-automatic-renewal:
+                    text: Configure automatic renewal
+                    relativeUrl: cli/automatic-renewal.html
                 cli-monitoring:
-                    text: Monitoring
+                    text: Configure monitoring
                     relativeUrl: cli/monitoring.html
-        symfony:
-            name: Symfony bundle (not ready)
-            items:
-                symfony-install-usage:
-                    text: Installation and usage
-                    relativeUrl: symfony/install-usage.html
+                cli-copy-network:
+                    text: Copy your certificate over the network after generation
+                    relativeUrl: cli/copy-network.html
+                cli-platformsh:
+                    text: Update your platform.sh certificate after generation
+                    relativeUrl: cli/platformsh.html
+                cli-heroku:
+                    text: Udate your Heroku certificate after generation
+                    relativeUrl: cli/heroku.html
+        # symfony:
+        #     name: Symfony bundle (not ready)
+        #     items:
+        #         symfony-install-usage:
+        #             text: Installation and usage
+        #             relativeUrl: symfony/install-usage.html
         core:
             name: Acme PHP library
             items:
-                core-install-usage:
-                    text: Installation and usage
-                    relativeUrl: core/install-usage.html
+                core-introduction:
+                    text: Introduction
+                    relativeUrl: core/introduction.html
+                core-get-started:
+                    text: Get started
+                    relativeUrl: core/get-started.html
         ssl:
             name: SSL library
             items:
                 ssl-introduction:
-                    text: Installation and usage
-                    relativeUrl: ssl/install-usage.html
+                    text: Introduction
+                    relativeUrl: ssl/introduction.html
+                ssl-get-started:
+                    text: Get started
+                    relativeUrl: ssl/get-started.html
