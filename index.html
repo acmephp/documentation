@@ -27,11 +27,6 @@
 
         <nav class="header-menu">
             <ul>
-                <li>
-                    <a href="/documentation/cli/install-usage.html">
-                        Get started
-                    </a>
-                </li>
                 <li class="current">
                     <a href="/documentation/">
                         Documentation
@@ -56,35 +51,44 @@
                         <h4 class="doc-menu-header">Command line tool</h4>
 
                         <ul class="doc-menu-sub">
-                                                            <li class="">
+                                                            <li class="current">
                                     <a href="https://acmephp.github.io/documentation/">
-                                        Introduction
+                                        Introduction and installation
                                     </a>
                                 </li>
                                                             <li class="">
-                                    <a href="https://acmephp.github.io/documentation/cli/install-usage.html">
-                                        Installation and usage
+                                    <a href="https://acmephp.github.io/documentation/cli/get-certificate.html">
+                                        Get a certificate
                                     </a>
                                 </li>
                                                             <li class="">
-                                    <a href="https://acmephp.github.io/documentation/cli/post-generate.html">
-                                        Post-generate actions
+                                    <a href="https://acmephp.github.io/documentation/cli/webserver.html">
+                                        Configure your webserver
+                                    </a>
+                                </li>
+                                                            <li class="">
+                                    <a href="https://acmephp.github.io/documentation/cli/automatic-renewal.html">
+                                        Configure automatic renewal
                                     </a>
                                 </li>
                                                             <li class="">
                                     <a href="https://acmephp.github.io/documentation/cli/monitoring.html">
-                                        Monitoring
+                                        Configure monitoring
                                     </a>
                                 </li>
-                                                    </ul>
-                    </li>
-                                        <li>
-                        <h4 class="doc-menu-header">Symfony bundle (not ready)</h4>
-
-                        <ul class="doc-menu-sub">
                                                             <li class="">
-                                    <a href="https://acmephp.github.io/documentation/symfony/install-usage.html">
-                                        Installation and usage
+                                    <a href="https://acmephp.github.io/documentation/cli/copy-network.html">
+                                        Copy your certificate over the network after generation
+                                    </a>
+                                </li>
+                                                            <li class="">
+                                    <a href="https://acmephp.github.io/documentation/cli/platformsh.html">
+                                        Update your platform.sh certificate after generation
+                                    </a>
+                                </li>
+                                                            <li class="">
+                                    <a href="https://acmephp.github.io/documentation/cli/heroku.html">
+                                        Udate your Heroku certificate after generation
                                     </a>
                                 </li>
                                                     </ul>
@@ -94,8 +98,13 @@
 
                         <ul class="doc-menu-sub">
                                                             <li class="">
-                                    <a href="https://acmephp.github.io/documentation/core/install-usage.html">
-                                        Installation and usage
+                                    <a href="https://acmephp.github.io/documentation/core/introduction.html">
+                                        Introduction
+                                    </a>
+                                </li>
+                                                            <li class="">
+                                    <a href="https://acmephp.github.io/documentation/core/get-started.html">
+                                        Get started
                                     </a>
                                 </li>
                                                     </ul>
@@ -105,8 +114,13 @@
 
                         <ul class="doc-menu-sub">
                                                             <li class="">
-                                    <a href="https://acmephp.github.io/documentation/ssl/install-usage.html">
-                                        Installation and usage
+                                    <a href="https://acmephp.github.io/documentation/ssl/introduction.html">
+                                        Introduction
+                                    </a>
+                                </li>
+                                                            <li class="">
+                                    <a href="https://acmephp.github.io/documentation/ssl/get-started.html">
+                                        Get started
                                     </a>
                                 </li>
                                                     </ul>
@@ -124,12 +138,42 @@
             </div>
 
             <h1 id="acme-php">Acme PHP</h1>
-<p>Acme PHP is a simple yet very extensible CLI client for Let's Encrypt that will help
-you get and renew free HTTPS certificates.</p>
-<p>Acme PHP is also an initiative to bring a robust, stable and powerful implementation
-of the ACME protocol in PHP. Using the Acme PHP library and core components, you will be
-able to deeply integrate the management of your certificates directly in your application
-(for instance, renew your certificates from your web interface).</p>
+<p>Acme PHP is a simple yet very extensible command line tool that will let you get
+and renew free HTTPS certificates.</p>
+<p>It works with the <a href="https://letsencrypt.org/">Let's Encrypt certificate authority</a>,
+using the <a href="https://github.com/letsencrypt/acme-spec">ACME protocol</a>. In a few steps,
+you will be able to get a trusted certificate for any domain, freely and easily.</p>
+<p>Acme PHP also proposes advanced features such as:</p>
+<ul>
+<li><a href="/documentation/cli/automatic-renewal.html">automatic renewal</a> (you won't forget to renew your certificates anymore!)</li>
+<li>post-generate actions (for instance to <a href="/documentation//cli/copy-network.html">copy your certificates over the network</a>)</li>
+<li><a href="/documentation/cli/monitoring.html">monitoring</a> (to be alerted if an automatic renewal failed)</li>
+</ul>
+<h2 id="installation">Installation</h2>
+<p>Acme PHP is available as a single PHAR file to download on Github. However, for security purposes,
+this PHAR file is signed using OpenSSL to ensure you are using a valid Acme PHP binary.</p>
+<p>We recommand you to put the PHAR file on the root of your home directory as it is a tool global to
+your system.</p>
+<p>You can run the following commands:</p>
+<pre><code class="language-bash">cd ~
+php -r "copy('https://github.com/acmephp/acmephp/releases/download/1.0.0-alpha8/acmephp.phar', 'acmephp.phar');"
+php -r "copy('https://github.com/acmephp/acmephp/releases/download/1.0.0-alpha8/acmephp.phar.pubkey', 'acmephp.phar.pubkey');"
+chmod a+x acmephp.phar
+./acmephp.phar --version</code></pre>
+<p>If the last command display the Acme PHP version, you are ready to use Acme PHP.
+<a href="/documentation/cli/get-certificate.html">Start by getting your first certificate!</a></p>
+<h2 id="use-the-lastest-development-version">Use the lastest development version</h2>
+<p>While we strongly recommand you to use a stable (or at least pre-release) version, you can also use the lastest
+development build if you need latest features.</p>
+<p>To do so, you can either run <code>./acmephp.phar self-update --dev</code> if you already have the client or download
+the development version directly using the following commands:</p>
+<pre><code class="language-bash">cd ~
+php -r "copy('https://acmephp.github.io/downloads/acmephp.phar', 'acmephp.phar');"
+php -r "copy('https://acmephp.github.io/downloads/acmephp.phar.pubkey', 'acmephp.phar.pubkey');"
+chmod a+x acmephp.phar
+./acmephp.phar --version</code></pre>
+<p><strong>Note</strong>: the version you will see is not the right version (it will be the last pre-release version), but
+that's normal.</p>
         </div>
 
         <div class="clearfix"></div>
@@ -223,24 +267,5 @@ able to deeply integrate the management of your certificates directly in your ap
 
 <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
-
-<script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-    ga('create', 'UA-79502600-1', 'auto');
-    ga('send', 'pageview');
-
-    (function(h,o,t,j,a,r){
-        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-        h._hjSettings={hjid:233364,hjsv:5};
-        a=o.getElementsByTagName('head')[0];
-        r=o.createElement('script');r.async=1;
-        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-        a.appendChild(r);
-    })(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
-</script>
 </body>
 </html>

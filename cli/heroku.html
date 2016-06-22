@@ -86,7 +86,7 @@
                                         Update your platform.sh certificate after generation
                                     </a>
                                 </li>
-                                                            <li class="">
+                                                            <li class="current">
                                     <a href="https://acmephp.github.io/documentation/cli/heroku.html">
                                         Udate your Heroku certificate after generation
                                     </a>
@@ -118,7 +118,7 @@
                                         Introduction
                                     </a>
                                 </li>
-                                                            <li class="current">
+                                                            <li class="">
                                     <a href="https://acmephp.github.io/documentation/ssl/get-started.html">
                                         Get started
                                     </a>
@@ -137,43 +137,8 @@
                 </a>
             </div>
 
-            <h1 id="get-started">Get started</h1>
-<h2 id="installation">Installation</h2>
-<p>You will need the PHP OpenSSL extension to use Acme PHP SSL.</p>
-<p>Install this library using Composer:</p>
-<pre><code class="language-bash">composer require acmephp/ssl</code></pre>
-<h2 id="usage">Usage</h2>
-<h3 id="ssl-entities">SSL entities</h3>
-<p>This library provides the following SSL entities:</p>
-<ul>
-<li><strong>PrivateKey</strong>: a private key</li>
-<li><strong>PublicKey</strong>: a public key</li>
-<li><strong>ParsedKey</strong>: data resulting of the decoding of a key (public or private)</li>
-<li><strong>KeyPair</strong>: a couple of public and private key</li>
-<li><strong>Certificate</strong>: a PEM certificate string (an encoded certificate)</li>
-<li><strong>ParsedCertificate</strong>: data resulting of the decoding of a parsed certificate</li>
-<li><strong>DistinguishedName</strong>: required data used to generate a Certificate Request Signing</li>
-<li><strong>CertificateRequest</strong>: required data used to request a certificate</li>
-<li><strong>CertificateResponse</strong>: the result of a certificate request</li>
-</ul>
-<p>These entities are the objects you will receive from the services provided by this library.</p>
-<h3 id="generators">Generators</h3>
-<p>Generators are under <code>AcmePhp\Ssl\Generator</code> namespace.</p>
-<ul>
-<li><strong>KeyPairGenerator</strong> generates a <strong>KeyPair</strong> entity (using OpenSSL functions)</li>
-</ul>
-<h3 id="parsers">Parsers</h3>
-<p>Parsers are under <code>AcmePhp\Ssl\Parser</code> namespace.</p>
-<ul>
-<li><strong>CertificateParser</strong> parses certificates (<strong>Certificate</strong> entities) and return <strong>ParsedCertificate</strong> entities</li>
-<li><strong>KeyParser</strong> parses keys (<strong>PrivateKey or PublicKey</strong> entities) and return <strong>ParsedKey</strong> entities</li>
-</ul>
-<h3 id="signers">Signers</h3>
-<p>Signers are under <code>AcmePhp\Ssl\Signer</code> namespace.</p>
-<ul>
-<li><strong>CertificateRequestSigner</strong> signs Certificate requests (CSR)</li>
-<li><strong>DataSigner</strong> signs custom data using a private key</li>
-</ul>
+            <h1 id="update-your-heroku-certificate">Update your Heroku certificate</h1>
+<p>TODO</p>
         </div>
 
         <div class="clearfix"></div>

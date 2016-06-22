@@ -56,7 +56,7 @@
                                         Introduction and installation
                                     </a>
                                 </li>
-                                                            <li class="">
+                                                            <li class="current">
                                     <a href="https://acmephp.github.io/documentation/cli/get-certificate.html">
                                         Get a certificate
                                     </a>
@@ -118,7 +118,7 @@
                                         Introduction
                                     </a>
                                 </li>
-                                                            <li class="current">
+                                                            <li class="">
                                     <a href="https://acmephp.github.io/documentation/ssl/get-started.html">
                                         Get started
                                     </a>
@@ -137,43 +137,105 @@
                 </a>
             </div>
 
-            <h1 id="get-started">Get started</h1>
-<h2 id="installation">Installation</h2>
-<p>You will need the PHP OpenSSL extension to use Acme PHP SSL.</p>
-<p>Install this library using Composer:</p>
-<pre><code class="language-bash">composer require acmephp/ssl</code></pre>
-<h2 id="usage">Usage</h2>
-<h3 id="ssl-entities">SSL entities</h3>
-<p>This library provides the following SSL entities:</p>
+            <h1 id="get-started-with-acme-php">Get started with Acme PHP</h1>
+<p>Now Acme PHP is available on your system (<code>./acmephp.phar --version</code> should display its version),
+you can start requesting certificates for your domains using it.</p>
+<h2 id="1-register-your-account-private-key-on-the-lets-encryptacme-server">1. Register your account private key on the Let's Encrypt/ACME server</h2>
+<p>The first thing we need to do is to generate a global private key (your &quot;account key&quot;) that will be
+used for future exchanges with Let's Encyrpt to proove your identity.</p>
+<p>To do so, run the following command:</p>
+<pre><code class="language-console">./acmephp.phar register youremail@example.com
+
+# If you are not using Let's Encrypt, you may need to change the --agreement option</code></pre>
+<p>This command will do four main things:</p>
 <ul>
-<li><strong>PrivateKey</strong>: a private key</li>
-<li><strong>PublicKey</strong>: a public key</li>
-<li><strong>ParsedKey</strong>: data resulting of the decoding of a key (public or private)</li>
-<li><strong>KeyPair</strong>: a couple of public and private key</li>
-<li><strong>Certificate</strong>: a PEM certificate string (an encoded certificate)</li>
-<li><strong>ParsedCertificate</strong>: data resulting of the decoding of a parsed certificate</li>
-<li><strong>DistinguishedName</strong>: required data used to generate a Certificate Request Signing</li>
-<li><strong>CertificateRequest</strong>: required data used to request a certificate</li>
-<li><strong>CertificateResponse</strong>: the result of a certificate request</li>
+<li>create the <code>~/.acmephp</code> directory where all the data of Acme PHP will be stored</li>
+<li>create a default configuration file <code>~/.acmephp/acmephp.conf</code> that you may edit for advanced usages of Acme PHP</li>
+<li>generate a key pair for your account and store it in <code>~/.acmephp</code> (in <code>master</code> and <code>backup</code>)</li>
+<li>register your account key in the Let's Encrypt/ACME server, associating it with your e-mail adress</li>
 </ul>
-<p>These entities are the objects you will receive from the services provided by this library.</p>
-<h3 id="generators">Generators</h3>
-<p>Generators are under <code>AcmePhp\Ssl\Generator</code> namespace.</p>
+<h2 id="2-verify-you-own-the-domain-you-want-a-certificate-for">2. Verify you own the domain you want a certificate for</h2>
+<p>You can only request certificates for domains you own. To prove that, the Acme PHP client uses a HTTP
+challenge.</p>
+<p>The principle is quite simple:</p>
 <ul>
-<li><strong>KeyPairGenerator</strong> generates a <strong>KeyPair</strong> entity (using OpenSSL functions)</li>
+<li>the Acme PHP client asks the Let's Encrypt server for a token</li>
+<li>you expose this token at a specific URL under the domain to check</li>
+<li>the Acme PHP client asks the server to check the URL for the token</li>
 </ul>
-<h3 id="parsers">Parsers</h3>
-<p>Parsers are under <code>AcmePhp\Ssl\Parser</code> namespace.</p>
+<p>Using this technique, you proved your server is responding behind the concerned domain.</p>
+<p><strong>Note:</strong> You only need to prove once that you own a domain (certificates renewals won't require it), as long as
+you keep the same account key.</p>
+<h3 id="2a-ask-the-server-for-the-token">2a. Ask the server for the token</h3>
+<p>Run the <code>authorize</code> command with your domain:</p>
+<pre><code class="language-console">./acmephp.phar authorize yourdomain.org
+
+Loading account key pair...
+Requesting an authorization token for domain yourdomain.org ...
+
+The authorization token was successfully fetched!
+
+Now, to prove you own the domain yourdomain.org and request certificates for this domain, follow these steps:
+
+    1. Create a text file accessible on URL http://yourdomain.org/.well-known/acme-challenge/ukfMzbSUxNh2TfcR8ysFeV2gMT0nvkvGzSzo4siaIB8
+       containing the following content:
+
+       ukfMzbSUxNh2TfcR8ysFeV2gMT0nvkvGzSzo4siaIB8.K5qhJEjwWA-pgtp4BAeyI7kWWpWGFbxEZneBCZeTjSw
+
+    2. Check in your browser that the URL http://yourdomain.org/.well-known/acme-challenge/ukfMzbSUxNh2TfcR8ysFeV2gMT0nvkvGzSzo4siaIB8 returns
+       the authorization token above.
+
+    3. Call the check command to ask the server to check your URL:
+
+       php ./acmephp.phar check yourdomain.org</code></pre>
+<h3 id="2b-expose-the-token">2b. Expose the token</h3>
+<p>As you may have understood, you now need to expose the token
+<code>ukfMzbSUxNh2TfcR8ysFeV2gMT0nvkvGzSzo4siaIB8.K5qhJEjwWA-pgtp4BAeyI7kWWpWGFbxEZneBCZeTjSw</code> at the URL
+<code>http://yourdomain.org/.well-known/acme-challenge/ukfMzbSUxNh2TfcR8ysFeV2gMT0nvkvGzSzo4siaIB8</code>.</p>
+<p>To do so, usually a simple text file in the <code>.well-known/acme-challenge</code> directory under your web root
+is enough, named as specified in the URL and containing the token.</p>
+<p>Once that's done, make sure your URL works properly: try to access the URL
+<code>http://yourdomain.org/.well-known/acme-challenge/ukfMzbSUxNh2TfcR8ysFeV2gMT0nvkvGzSzo4siaIB8</code> and check you see your
+token.</p>
+<p>If you do see that token, you can now ask the server to check it.</p>
+<h3 id="2c-ask-the-server-to-check-your-url">2c. Ask the server to check your URL</h3>
+<p>Run the <code>check</code> command with your domain:</p>
+<pre><code class="language-console">./acmephp.phar check yourdomain.org
+
+Loading account key pair...
+Loading the authorization token for domain yourdomain.org ...
+Requesting authorization check for domain yourdomain.org ...
+
+The authorization check was successful!
+
+You are now the proved owner of the domain yourdomain.org.
+Please note that you won't need to prove it anymore as long as you keep the same account key pair.
+
+You can now request a certificate for your domain:
+
+   php ./acmephp.phar request yourdomain.org</code></pre>
+<p>If there is an issue, you will usually have a message describing the problem. If you are stuck, don't hesitate to
+ask on <a href="https://github.com/acmephp/acmephp/issues">Github issues</a>.</p>
+<h2 id="3-request-a-certificate-for-your-domain">3. Request a certificate for your domain</h2>
+<p>Finally! You are the proved owner of your domain, you can now request and renew a certificate for this domain.</p>
+<p>To do so, simply run the <code>request</code> command:</p>
+<pre><code class="language-console">./acmephp.phar request yourdomain.org</code></pre>
+<p>This command will ask you required informations for the certificate, request it to the server and store it in
+the <code>~/.acmephp</code> storage directory.</p>
+<p>5 files will be created in the storage directory:</p>
 <ul>
-<li><strong>CertificateParser</strong> parses certificates (<strong>Certificate</strong> entities) and return <strong>ParsedCertificate</strong> entities</li>
-<li><strong>KeyParser</strong> parses keys (<strong>PrivateKey or PublicKey</strong> entities) and return <strong>ParsedKey</strong> entities</li>
+<li><code>~/.acmephp/master/private/yourdomain.org/private.pem</code> contains your domain private key (required in many cases).</li>
+<li><code>~/.acmephp/master/certs/yourdomain.org/cert.pem</code> contains only your certificate, without the issuer certificate.
+It may be useful in certains cases but you will probably not need it (use fullchain.pem instead).</li>
+<li><code>~/.acmephp/master/certs/yourdomain.org/chain.pem</code> contains the issuer certificate chain (its certificate, the
+certificate of its issuer, the certificate of the issuer of its issuer, etc.). Your certificate is
+not present in this file.</li>
+<li><code>~/.acmephp/master/certs/yourdomain.org/fullchain.pem</code> contains your certificate AND the issuer certificate chain.
+You most likely will use this file in your webserver.</li>
+<li><code>~/.acmephp/master/certs/yourdomain.org/combined.pem</code> contains the fullchain AND your domain private key (some
+webservers expect this format such as haproxy).</li>
 </ul>
-<h3 id="signers">Signers</h3>
-<p>Signers are under <code>AcmePhp\Ssl\Signer</code> namespace.</p>
-<ul>
-<li><strong>CertificateRequestSigner</strong> signs Certificate requests (CSR)</li>
-<li><strong>DataSigner</strong> signs custom data using a private key</li>
-</ul>
+<p>You can continue in the documentation <a href="/documentation/cli/webserver.html">by configuring your webserver</a>.</p>
         </div>
 
         <div class="clearfix"></div>
