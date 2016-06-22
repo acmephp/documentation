@@ -133,4 +133,35 @@ the `~/.acmephp` storage directory.
 - `~/.acmephp/master/certs/yourdomain.org/combined.pem` contains the fullchain AND your domain private key (some
   webservers expect this format such as haproxy).
 
-You can continue in the documentation [by configuring your webserver](/documentation/cli/webserver.html).
+## 4. List your certificates and their status
+
+Using the command `./acmephp.phar status`, you can see what certificates are handled by the Acme PHP client
+and when they will expire. It's a useful tool to avoid expired certificates:
+
+``` console
+./acmephp.phar status
+
++------------------------------+----------------------------+---------------------+---------------------+----------------+
+| Domain                       | Issuer                     | Valid from          | Valid to            | Needs renewal? |
++------------------------------+----------------------------+---------------------+---------------------+----------------+
+| acmephp.titouangalopin.com   | Let's Encrypt Authority X3 | 2016-06-17 13:08:00 | 2016-09-15 13:08:00 | No             |
++------------------------------+----------------------------+---------------------+---------------------+----------------+
+```
+
+## 5. Renew a certificate
+
+If a certificate will expire soon, you will probably want to renew it. To do so, simply rerun the `request` command:
+
+``` console
+./acmephp.phar request yourdomain.org
+```
+
+This time, the command won't ask you anything (all the required informations were stored at the first request).
+The certificate will be renewed.
+
+Please note that there may be a limit of renewals per day or week depending on the configuration of the ACME server.
+Let's Encrypt has this kind of limitation: renew only when required (one week before expiration for instance).
+
+
+
+Next: [Configure your webserver](/documentation/cli/webserver.html)
