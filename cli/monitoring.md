@@ -2,6 +2,6 @@
 currentMenu: cli-monitoring
 ---
 
-# Monitoring
+# Configure monitoring
 
 TODO
