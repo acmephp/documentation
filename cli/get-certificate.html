@@ -68,12 +68,7 @@
                                 </li>
                                                             <li class="">
                                     <a href="https://acmephp.github.io/documentation/cli/automatic-renewal.html">
-                                        Configure automatic renewal
-                                    </a>
-                                </li>
-                                                            <li class="">
-                                    <a href="https://acmephp.github.io/documentation/cli/monitoring.html">
-                                        Configure monitoring
+                                        Configure automatic renewal (with monitoring)
                                     </a>
                                 </li>
                                                             <li class="">
@@ -142,11 +137,9 @@
 you can start requesting certificates for your domains using it.</p>
 <h2 id="1-register-your-account-private-key-on-the-lets-encryptacme-server">1. Register your account private key on the Let's Encrypt/ACME server</h2>
 <p>The first thing we need to do is to generate a global private key (your &quot;account key&quot;) that will be
-used for future exchanges with Let's Encyrpt to proove your identity.</p>
+used for future exchanges with Let's Encyrpt to prove your identity.</p>
 <p>To do so, run the following command:</p>
-<pre><code class="language-console">./acmephp.phar register youremail@example.com
-
-# If you are not using Let's Encrypt, you may need to change the --agreement option</code></pre>
+<pre><code class="language-console">php acmephp.phar register youremail@example.com</code></pre>
 <p>This command will do four main things:</p>
 <ul>
 <li>create the <code>~/.acmephp</code> directory where all the data of Acme PHP will be stored</li>
@@ -168,7 +161,7 @@ challenge.</p>
 you keep the same account key.</p>
 <h3 id="2a-ask-the-server-for-the-token">2a. Ask the server for the token</h3>
 <p>Run the <code>authorize</code> command with your domain:</p>
-<pre><code class="language-console">./acmephp.phar authorize yourdomain.org
+<pre><code class="language-console">php acmephp.phar authorize yourdomain.org
 
 Loading account key pair...
 Requesting an authorization token for domain yourdomain.org ...
@@ -200,7 +193,7 @@ token.</p>
 <p>If you do see that token, you can now ask the server to check it.</p>
 <h3 id="2c-ask-the-server-to-check-your-url">2c. Ask the server to check your URL</h3>
 <p>Run the <code>check</code> command with your domain:</p>
-<pre><code class="language-console">./acmephp.phar check yourdomain.org
+<pre><code class="language-console">php acmephp.phar check yourdomain.org
 
 Loading account key pair...
 Loading the authorization token for domain yourdomain.org ...
@@ -219,26 +212,40 @@ ask on <a href="https://github.com/acmephp/acmephp/issues">Github issues</a>.</p
 <h2 id="3-request-a-certificate-for-your-domain">3. Request a certificate for your domain</h2>
 <p>Finally! You are the proved owner of your domain, you can now request and renew a certificate for this domain.</p>
 <p>To do so, simply run the <code>request</code> command:</p>
-<pre><code class="language-console">./acmephp.phar request yourdomain.org</code></pre>
+<pre><code class="language-console">php acmephp.phar request yourdomain.org</code></pre>
 <p>This command will ask you required informations for the certificate, request it to the server and store it in
 the <code>~/.acmephp</code> storage directory.</p>
-<p>5 files will be created in the storage directory:</p>
+<p>6 files will be created in the storage directory:</p>
 <ul>
-<li><code>~/.acmephp/master/private/yourdomain.org/private.pem</code> contains your domain private key (required in many cases).</li>
-<li><code>~/.acmephp/master/certs/yourdomain.org/cert.pem</code> contains only your certificate, without the issuer certificate.
-It may be useful in certains cases but you will probably not need it (use fullchain.pem instead).</li>
-<li><code>~/.acmephp/master/certs/yourdomain.org/chain.pem</code> contains the issuer certificate chain (its certificate, the
-certificate of its issuer, the certificate of the issuer of its issuer, etc.). Your certificate is
-not present in this file.</li>
-<li><code>~/.acmephp/master/certs/yourdomain.org/fullchain.pem</code> contains your certificate AND the issuer certificate chain.
-You most likely will use this file in your webserver.</li>
-<li><code>~/.acmephp/master/certs/yourdomain.org/combined.pem</code> contains the fullchain AND your domain private key (some
-webservers expect this format such as haproxy).</li>
+<li>
+<p><strong>The full-chain certificate</strong> at <code>~/.acmephp/master/certs/yourdomain.org/fullchain.pem</code>.
+This file is the certificate itself. You probably want to use this file in your webserver configurationas it
+includes all the issuers chain for a better compatibility with old devices.</p>
+</li>
+<li>
+<p><strong>The certificate private key</strong> at <code>~/.acmephp/master/private/yourdomain.org/private.pem</code>.
+This file is usually required by the webserver.</p>
+</li>
+<li>
+<p><strong>The chain alone</strong> at <code>~/.acmephp/master/certs/yourdomain.org/chain.pem</code>.
+Some webservers requires a separated chain and certificate. This is the chain part, if you need it.</p>
+</li>
+<li>
+<p><strong>The certificate alone</strong> at <code>~/.acmephp/master/certs/yourdomain.org/cert.pem</code>.
+Some webservers requires a separated chain and certificate. This is the certificate part, if you need it.</p>
+</li>
+<li>
+<p><strong>The combined certificate</strong> at <code>~/.acmephp/master/certs/yourdomain.org/combined.pem</code>.
+Some webservers requires a single file combining the full-chain and the certificate private key.
+This is it, if you need it.</p>
+</li>
+<li><strong>The certificate public key</strong> at <code>~/.acmephp/master/private/yourdomain.org/public.pem</code>.
+You probably won't need it, but it's still available here.</li>
 </ul>
 <h2 id="4-list-your-certificates-and-their-status">4. List your certificates and their status</h2>
 <p>Using the command <code>./acmephp.phar status</code>, you can see what certificates are handled by the Acme PHP client
 and when they will expire. It's a useful tool to avoid expired certificates:</p>
-<pre><code class="language-console">./acmephp.phar status
+<pre><code class="language-console">php acmephp.phar status
 
 +------------------------------+----------------------------+---------------------+---------------------+----------------+
 | Domain                       | Issuer                     | Valid from          | Valid to            | Needs renewal? |
@@ -247,11 +254,13 @@ and when they will expire. It's a useful tool to avoid expired certificates:</p>
 +------------------------------+----------------------------+---------------------+---------------------+----------------+</code></pre>
 <h2 id="5-renew-a-certificate">5. Renew a certificate</h2>
 <p>If a certificate will expire soon, you will probably want to renew it. To do so, simply rerun the <code>request</code> command:</p>
-<pre><code class="language-console">./acmephp.phar request yourdomain.org</code></pre>
+<pre><code class="language-console">php acmephp.phar request yourdomain.org</code></pre>
 <p>This time, the command won't ask you anything (all the required informations were stored at the first request).
 The certificate will be renewed.</p>
 <p>Please note that there may be a limit of renewals per day or week depending on the configuration of the ACME server.
 Let's Encrypt has this kind of limitation: renew only when required (one week before expiration for instance).</p>
+<p>By default, the <code>request</code> command won't renew until one week before the expiration of the certificate. Therefore you
+can put it as a CRON every day and it will renew only when required.</p>
 <p>Next: <a href="/documentation/cli/webserver.html">Configure your webserver</a></p>
         </div>
 
