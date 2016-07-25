@@ -21,11 +21,8 @@ menu:
                     text: Configure your webserver
                     relativeUrl: cli/webserver.html
                 cli-automatic-renewal:
-                    text: Configure automatic renewal
+                    text: Configure automatic renewal (with monitoring)
                     relativeUrl: cli/automatic-renewal.html
-                cli-monitoring:
-                    text: Configure monitoring
-                    relativeUrl: cli/monitoring.html
                 cli-copy-network:
                     text: Copy your certificate over the network after generation
                     relativeUrl: cli/copy-network.html

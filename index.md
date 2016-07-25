@@ -22,37 +22,28 @@ Acme PHP also proposes advanced features such as:
 Acme PHP is available as a single PHAR file to download on Github. However, for security purposes,
 this PHAR file is signed using OpenSSL to ensure you are using a valid Acme PHP binary.
 
-We recommand you to put the PHAR file on the root of your home directory as it is a tool global to
-your system.
-
-You can run the following commands:
+You can install it by running the following commands:
 
 ``` bash
 cd ~
 php -r "copy('https://github.com/acmephp/acmephp/releases/download/1.0.0-alpha8/acmephp.phar', 'acmephp.phar');"
 php -r "copy('https://github.com/acmephp/acmephp/releases/download/1.0.0-alpha8/acmephp.phar.pubkey', 'acmephp.phar.pubkey');"
-chmod a+x acmephp.phar
-./acmephp.phar --version
+php acmephp.phar --version
 ```
 
 If the last command display the Acme PHP version, you are ready to use Acme PHP.
 [Start by getting your first certificate!](/documentation/cli/get-certificate.html)
 
-## Use the lastest development version
+## Use the latest development version
 
-While we strongly recommand you to use a stable (or at least pre-release) version, you can also use the lastest
-development build if you need latest features.
+While we strongly recommand you to use a stable (or at least pre-release) version, you can also use the latest
+development build if you need the latest features.
 
-To do so, you can either run `./acmephp.phar self-update --dev` if you already have the client or download
-the development version directly using the following commands:
+You can install it by running the following commands:
 
 ``` bash
 cd ~
 php -r "copy('https://acmephp.github.io/downloads/acmephp.phar', 'acmephp.phar');"
 php -r "copy('https://acmephp.github.io/downloads/acmephp.phar.pubkey', 'acmephp.phar.pubkey');"
-chmod a+x acmephp.phar
-./acmephp.phar --version
+php acmephp.phar --version
 ```
-
-**Note**: the version you will see is not the right version (it will be the last pre-release version), but
-that's normal.
