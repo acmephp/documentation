@@ -11,15 +11,9 @@ It works with the [Let's Encrypt certificate authority](https://letsencrypt.org/
 using the [ACME protocol](https://github.com/letsencrypt/acme-spec). In a few steps,
 you will be able to get a trusted certificate for any domain, freely and easily.
 
-Acme PHP also proposes advanced features such as:
-
-- [automatic renewal](/documentation/cli/automatic-renewal.html) (you won't forget to renew your certificates anymore!)
-- post-generate actions (for instance to [copy your certificates over the network](/documentation//cli/copy-network.html))
-- [monitoring](/documentation/cli/monitoring.html) (to be alerted if an automatic renewal failed)
-
 ## Installation
 
-Acme PHP is available as a single PHAR file to download on Github. However, for security purposes,
+Acme PHP is available as a single PHAR file to download on Github. For security purposes,
 this PHAR file is signed using OpenSSL to ensure you are using a valid Acme PHP binary.
 
 You can install it by running the following commands:
