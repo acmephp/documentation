@@ -71,25 +71,10 @@
                                         Configure automatic renewal (with monitoring)
                                     </a>
                                 </li>
-                                                            <li class="">
-                                    <a href="https://acmephp.github.io/documentation/cli/copy-network.html">
-                                        Copy your certificate over the network after generation
-                                    </a>
-                                </li>
-                                                            <li class="">
-                                    <a href="https://acmephp.github.io/documentation/cli/platformsh.html">
-                                        Update your platform.sh certificate after generation
-                                    </a>
-                                </li>
-                                                            <li class="">
-                                    <a href="https://acmephp.github.io/documentation/cli/heroku.html">
-                                        Udate your Heroku certificate after generation
-                                    </a>
-                                </li>
                                                     </ul>
                     </li>
                                         <li>
-                        <h4 class="doc-menu-header">Acme PHP library</h4>
+                        <h4 class="doc-menu-header">ACME protocol implementation</h4>
 
                         <ul class="doc-menu-sub">
                                                             <li class="">
@@ -133,85 +118,56 @@
             </div>
 
             <h1 id="get-started-with-acme-php">Get started with Acme PHP</h1>
-<p>Now Acme PHP is available on your system (<code>./acmephp.phar --version</code> should display its version),
+<p>Now Acme PHP is available on your system (<code>php acmephp.phar --version</code> should display its version),
 you can start requesting certificates for your domains using it.</p>
-<h2 id="1-register-your-account-private-key-on-the-lets-encryptacme-server">1. Register your account private key on the Let's Encrypt/ACME server</h2>
+<ol>
+<li><a href="#1-register-on-the-lets-encryptacme-server">Register on the Let's Encrypt/ACME server</a></li>
+<li><a href="#2-prove-you-own-the-domain">Prove you own the domain</a></li>
+<li><a href="#3-ask-the-server-to-check-your-proof">Ask the server to check your proof</a></li>
+<li><a href="#4-get-your-certificate">Get your certificate</a></li>
+<li><a href="#5-renew-your-certificate">Renew your certificate</a></li>
+<li><a href="#6-list-the-certificates-handled-by-acme-php">List the certificates handled by Acme PHP</a></li>
+</ol>
+<h2 id="1-register-on-the-lets-encryptacme-server">1. Register on the Let's Encrypt/ACME server</h2>
 <p>The first thing we need to do is to generate a global private key (your &quot;account key&quot;) that will be
 used for future exchanges with Let's Encyrpt to prove your identity.</p>
 <p>To do so, run the following command:</p>
 <pre><code class="language-console">php acmephp.phar register youremail@example.com</code></pre>
 <p>This command will do four main things:</p>
 <ul>
-<li>create the <code>~/.acmephp</code> directory where all the data of Acme PHP will be stored</li>
 <li>create a default configuration file <code>~/.acmephp/acmephp.conf</code> that you may edit for advanced usages of Acme PHP</li>
-<li>generate a key pair for your account and store it in <code>~/.acmephp</code> (in <code>master</code> and <code>backup</code>)</li>
+<li>generate a key pair for your account and store it in <code>~/.acmephp/master/private/_account</code></li>
 <li>register your account key in the Let's Encrypt/ACME server, associating it with your e-mail adress</li>
 </ul>
-<h2 id="2-verify-you-own-the-domain-you-want-a-certificate-for">2. Verify you own the domain you want a certificate for</h2>
-<p>You can only request certificates for domains you own. To prove that, the Acme PHP client uses a HTTP
-challenge.</p>
+<h2 id="2-prove-you-own-the-domain">2. Prove you own the domain</h2>
+<p>You can only request certificates for domains you own so you need to proove to the Let's Encrypt server that you own
+the domain.</p>
 <p>The principle is quite simple:</p>
 <ul>
-<li>the Acme PHP client asks the Let's Encrypt server for a token</li>
-<li>you expose this token at a specific URL under the domain to check</li>
-<li>the Acme PHP client asks the server to check the URL for the token</li>
+<li>You ask the server for a token and expose it on a specific URL given by the server</li>
+<li>The server check that URL and verify the token is properly exposed there</li>
 </ul>
 <p>Using this technique, you proved your server is responding behind the concerned domain.</p>
 <p><strong>Note:</strong> You only need to prove once that you own a domain (certificates renewals won't require it), as long as
 you keep the same account key.</p>
-<h3 id="2a-ask-the-server-for-the-token">2a. Ask the server for the token</h3>
-<p>Run the <code>authorize</code> command with your domain:</p>
-<pre><code class="language-console">php acmephp.phar authorize yourdomain.org
+<p>The first step is to get and expose the token. Run the following:</p>
+<pre><code class="language-console"># Get a token to expose
+php acmephp.phar authorize yourdomain.org
 
-Loading account key pair...
-Requesting an authorization token for domain yourdomain.org ...
-
-The authorization token was successfully fetched!
-
-Now, to prove you own the domain yourdomain.org and request certificates for this domain, follow these steps:
-
-    1. Create a text file accessible on URL http://yourdomain.org/.well-known/acme-challenge/ukfMzbSUxNh2TfcR8ysFeV2gMT0nvkvGzSzo4siaIB8
-       containing the following content:
-
-       ukfMzbSUxNh2TfcR8ysFeV2gMT0nvkvGzSzo4siaIB8.K5qhJEjwWA-pgtp4BAeyI7kWWpWGFbxEZneBCZeTjSw
-
-    2. Check in your browser that the URL http://yourdomain.org/.well-known/acme-challenge/ukfMzbSUxNh2TfcR8ysFeV2gMT0nvkvGzSzo4siaIB8 returns
-       the authorization token above.
-
-    3. Call the check command to ask the server to check your URL:
-
-       php ./acmephp.phar check yourdomain.org</code></pre>
-<h3 id="2b-expose-the-token">2b. Expose the token</h3>
-<p>As you may have understood, you now need to expose the token
-<code>ukfMzbSUxNh2TfcR8ysFeV2gMT0nvkvGzSzo4siaIB8.K5qhJEjwWA-pgtp4BAeyI7kWWpWGFbxEZneBCZeTjSw</code> at the URL
-<code>http://yourdomain.org/.well-known/acme-challenge/ukfMzbSUxNh2TfcR8ysFeV2gMT0nvkvGzSzo4siaIB8</code>.</p>
-<p>To do so, usually a simple text file in the <code>.well-known/acme-challenge</code> directory under your web root
-is enough, named as specified in the URL and containing the token.</p>
-<p>Once that's done, make sure your URL works properly: try to access the URL
-<code>http://yourdomain.org/.well-known/acme-challenge/ukfMzbSUxNh2TfcR8ysFeV2gMT0nvkvGzSzo4siaIB8</code> and check you see your
-token.</p>
-<p>If you do see that token, you can now ask the server to check it.</p>
-<h3 id="2c-ask-the-server-to-check-your-url">2c. Ask the server to check your URL</h3>
-<p>Run the <code>check</code> command with your domain:</p>
+# The command will display a lot of informations to help you expose the token properly.
+# Usually, a simple text file is enought to expose the token.</code></pre>
+<h2 id="3-ask-the-server-to-check-your-proof">3. Ask the server to check your proof</h2>
+<p>Once the token exposed (don't hesitate to check in your browser), run the following command to ask the server
+to check your proof:</p>
 <pre><code class="language-console">php acmephp.phar check yourdomain.org
 
-Loading account key pair...
-Loading the authorization token for domain yourdomain.org ...
-Requesting authorization check for domain yourdomain.org ...
-
-The authorization check was successful!
-
-You are now the proved owner of the domain yourdomain.org.
-Please note that you won't need to prove it anymore as long as you keep the same account key pair.
-
-You can now request a certificate for your domain:
-
-   php ./acmephp.phar request yourdomain.org</code></pre>
+# The server will check the URL for the token to expose. If it succeeds, you will be able to request certificate
+# for this domain.</code></pre>
 <p>If there is an issue, you will usually have a message describing the problem. If you are stuck, don't hesitate to
 ask on <a href="https://github.com/acmephp/acmephp/issues">Github issues</a>.</p>
-<h2 id="3-request-a-certificate-for-your-domain">3. Request a certificate for your domain</h2>
-<p>Finally! You are the proved owner of your domain, you can now request and renew a certificate for this domain.</p>
-<p>To do so, simply run the <code>request</code> command:</p>
+<h2 id="4-get-your-certificate">4. Get your certificate</h2>
+<p>Finally! You are the proved owner of your domain, you can now request and renew a certificate for this domain.
+To do so, simply run the <code>request</code> command:</p>
 <pre><code class="language-console">php acmephp.phar request yourdomain.org</code></pre>
 <p>This command will ask you required informations for the certificate, request it to the server and store it in
 the <code>~/.acmephp</code> storage directory.</p>
@@ -242,7 +198,17 @@ This is it, if you need it.</p>
 <li><strong>The certificate public key</strong> at <code>~/.acmephp/master/private/yourdomain.org/public.pem</code>.
 You probably won't need it, but it's still available here.</li>
 </ul>
-<h2 id="4-list-your-certificates-and-their-status">4. List your certificates and their status</h2>
+<p>You can now <a href="/documentation/cli/webserver.html">configure your webserver</a>!</p>
+<h2 id="5-renew-your-certificate">5. Renew your certificate</h2>
+<p>If a certificate will expire soon, you will probably want to renew it. To do so, simply rerun the <code>request</code> command:</p>
+<pre><code class="language-console">php acmephp.phar request yourdomain.org</code></pre>
+<p>This time, the command won't ask you anything (all the required informations were stored at the first request).
+The certificate will be renewed.</p>
+<p>Please note that there may be a limit of renewals per day or week depending on the configuration of the ACME server.
+Let's Encrypt has this kind of limitation: renew only when required (one week before expiration for instance).</p>
+<p>By default, the <code>request</code> command won't renew until one week before the expiration of the certificate. Therefore you
+can put it as a CRON every day and it will renew only when required.</p>
+<h2 id="6-list-the-certificates-handled-by-acme-php">6. List the certificates handled by Acme PHP</h2>
 <p>Using the command <code>./acmephp.phar status</code>, you can see what certificates are handled by the Acme PHP client
 and when they will expire. It's a useful tool to avoid expired certificates:</p>
 <pre><code class="language-console">php acmephp.phar status
@@ -252,15 +218,7 @@ and when they will expire. It's a useful tool to avoid expired certificates:</p>
 +------------------------------+----------------------------+---------------------+---------------------+----------------+
 | acmephp.titouangalopin.com   | Let's Encrypt Authority X3 | 2016-06-17 13:08:00 | 2016-09-15 13:08:00 | No             |
 +------------------------------+----------------------------+---------------------+---------------------+----------------+</code></pre>
-<h2 id="5-renew-a-certificate">5. Renew a certificate</h2>
-<p>If a certificate will expire soon, you will probably want to renew it. To do so, simply rerun the <code>request</code> command:</p>
-<pre><code class="language-console">php acmephp.phar request yourdomain.org</code></pre>
-<p>This time, the command won't ask you anything (all the required informations were stored at the first request).
-The certificate will be renewed.</p>
-<p>Please note that there may be a limit of renewals per day or week depending on the configuration of the ACME server.
-Let's Encrypt has this kind of limitation: renew only when required (one week before expiration for instance).</p>
-<p>By default, the <code>request</code> command won't renew until one week before the expiration of the certificate. Therefore you
-can put it as a CRON every day and it will renew only when required.</p>
+<hr />
 <p>Next: <a href="/documentation/cli/webserver.html">Configure your webserver</a></p>
         </div>
 
