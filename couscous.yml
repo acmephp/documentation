@@ -23,15 +23,15 @@ menu:
                 cli-automatic-renewal:
                     text: Configure automatic renewal (with monitoring)
                     relativeUrl: cli/automatic-renewal.html
-                cli-copy-network:
-                    text: Copy your certificate over the network after generation
-                    relativeUrl: cli/copy-network.html
-                cli-platformsh:
-                    text: Update your platform.sh certificate after generation
-                    relativeUrl: cli/platformsh.html
-                cli-heroku:
-                    text: Udate your Heroku certificate after generation
-                    relativeUrl: cli/heroku.html
+        #        cli-copy-network:
+        #            text: Copy your certificate over the network after generation
+        #            relativeUrl: cli/copy-network.html
+        #         cli-platformsh:
+        #             text: Update your platform.sh certificate after generation
+        #             relativeUrl: cli/platformsh.html
+        #         cli-heroku:
+        #             text: Udate your Heroku certificate after generation
+        #            relativeUrl: cli/heroku.html
         # symfony:
         #     name: Symfony bundle (not ready)
         #     items:
@@ -39,7 +39,7 @@ menu:
         #             text: Installation and usage
         #             relativeUrl: symfony/install-usage.html
         core:
-            name: Acme PHP library
+            name: ACME protocol implementation
             items:
                 core-introduction:
                     text: Introduction

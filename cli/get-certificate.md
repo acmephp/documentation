@@ -4,10 +4,17 @@ currentMenu: cli-get-certificate
 
 # Get started with Acme PHP
 
-Now Acme PHP is available on your system (`./acmephp.phar --version` should display its version),
+Now Acme PHP is available on your system (`php acmephp.phar --version` should display its version),
 you can start requesting certificates for your domains using it.
 
-## 1. Register your account private key on the Let's Encrypt/ACME server
+1. [Register on the Let's Encrypt/ACME server](#1-register-on-the-lets-encryptacme-server)
+2. [Prove you own the domain](#2-prove-you-own-the-domain)
+3. [Ask the server to check your proof](#3-ask-the-server-to-check-your-proof)
+4. [Get your certificate](#4-get-your-certificate)
+5. [Renew your certificate](#5-renew-your-certificate)
+6. [List the certificates handled by Acme PHP](#6-list-the-certificates-handled-by-acme-php)
+
+## 1. Register on the Let's Encrypt/ACME server
 
 The first thing we need to do is to generate a global private key (your "account key") that will be
 used for future exchanges with Let's Encyrpt to prove your identity.
@@ -19,96 +26,52 @@ php acmephp.phar register youremail@example.com
 ```
 
 This command will do four main things:
-- create the `~/.acmephp` directory where all the data of Acme PHP will be stored
 - create a default configuration file `~/.acmephp/acmephp.conf` that you may edit for advanced usages of Acme PHP
-- generate a key pair for your account and store it in `~/.acmephp` (in `master` and `backup`)
+- generate a key pair for your account and store it in `~/.acmephp/master/private/_account`
 - register your account key in the Let's Encrypt/ACME server, associating it with your e-mail adress
 
-## 2. Verify you own the domain you want a certificate for
+## 2. Prove you own the domain
 
-You can only request certificates for domains you own. To prove that, the Acme PHP client uses a HTTP
-challenge.
+You can only request certificates for domains you own so you need to proove to the Let's Encrypt server that you own
+the domain.
 
 The principle is quite simple:
-- the Acme PHP client asks the Let's Encrypt server for a token
-- you expose this token at a specific URL under the domain to check
-- the Acme PHP client asks the server to check the URL for the token
+- You ask the server for a token and expose it on a specific URL given by the server
+- The server check that URL and verify the token is properly exposed there
 
 Using this technique, you proved your server is responding behind the concerned domain.
 
 **Note:** You only need to prove once that you own a domain (certificates renewals won't require it), as long as
 you keep the same account key.
 
-### 2a. Ask the server for the token
-
-Run the `authorize` command with your domain:
+The first step is to get and expose the token. Run the following:
 
 ``` console
+# Get a token to expose
 php acmephp.phar authorize yourdomain.org
 
-Loading account key pair...
-Requesting an authorization token for domain yourdomain.org ...
-
-The authorization token was successfully fetched!
-
-Now, to prove you own the domain yourdomain.org and request certificates for this domain, follow these steps:
-
-    1. Create a text file accessible on URL http://yourdomain.org/.well-known/acme-challenge/ukfMzbSUxNh2TfcR8ysFeV2gMT0nvkvGzSzo4siaIB8
-       containing the following content:
-
-       ukfMzbSUxNh2TfcR8ysFeV2gMT0nvkvGzSzo4siaIB8.K5qhJEjwWA-pgtp4BAeyI7kWWpWGFbxEZneBCZeTjSw
-
-    2. Check in your browser that the URL http://yourdomain.org/.well-known/acme-challenge/ukfMzbSUxNh2TfcR8ysFeV2gMT0nvkvGzSzo4siaIB8 returns
-       the authorization token above.
-
-    3. Call the check command to ask the server to check your URL:
-
-       php ./acmephp.phar check yourdomain.org
+# The command will display a lot of informations to help you expose the token properly.
+# Usually, a simple text file is enought to expose the token.
 ```
 
-### 2b. Expose the token
+## 3. Ask the server to check your proof
 
-As you may have understood, you now need to expose the token
-`ukfMzbSUxNh2TfcR8ysFeV2gMT0nvkvGzSzo4siaIB8.K5qhJEjwWA-pgtp4BAeyI7kWWpWGFbxEZneBCZeTjSw` at the URL
-`http://yourdomain.org/.well-known/acme-challenge/ukfMzbSUxNh2TfcR8ysFeV2gMT0nvkvGzSzo4siaIB8`.
-
-To do so, usually a simple text file in the `.well-known/acme-challenge` directory under your web root
-is enough, named as specified in the URL and containing the token.
-
-Once that's done, make sure your URL works properly: try to access the URL
-`http://yourdomain.org/.well-known/acme-challenge/ukfMzbSUxNh2TfcR8ysFeV2gMT0nvkvGzSzo4siaIB8` and check you see your
-token.
-
-If you do see that token, you can now ask the server to check it.
-
-### 2c. Ask the server to check your URL
-
-Run the `check` command with your domain:
+Once the token exposed (don't hesitate to check in your browser), run the following command to ask the server
+to check your proof:
 
 ``` console
 php acmephp.phar check yourdomain.org
 
-Loading account key pair...
-Loading the authorization token for domain yourdomain.org ...
-Requesting authorization check for domain yourdomain.org ...
-
-The authorization check was successful!
-
-You are now the proved owner of the domain yourdomain.org.
-Please note that you won't need to prove it anymore as long as you keep the same account key pair.
-
-You can now request a certificate for your domain:
-
-   php ./acmephp.phar request yourdomain.org
+# The server will check the URL for the token to expose. If it succeeds, you will be able to request certificate
+# for this domain.
 ```
 
 If there is an issue, you will usually have a message describing the problem. If you are stuck, don't hesitate to
 ask on [Github issues](https://github.com/acmephp/acmephp/issues).
 
-## 3. Request a certificate for your domain
+## 4. Get your certificate
 
 Finally! You are the proved owner of your domain, you can now request and renew a certificate for this domain.
-
 To do so, simply run the `request` command:
 
 ``` console
@@ -140,22 +103,9 @@ the `~/.acmephp` storage directory.
 - **The certificate public key** at `~/.acmephp/master/private/yourdomain.org/public.pem`.
   You probably won't need it, but it's still available here.
 
-## 4. List your certificates and their status
+You can now [configure your webserver](/documentation/cli/webserver.html)!
 
-Using the command `./acmephp.phar status`, you can see what certificates are handled by the Acme PHP client
-and when they will expire. It's a useful tool to avoid expired certificates:
-
-``` console
-php acmephp.phar status
-
-+------------------------------+----------------------------+---------------------+---------------------+----------------+
-| Domain                       | Issuer                     | Valid from          | Valid to            | Needs renewal? |
-+------------------------------+----------------------------+---------------------+---------------------+----------------+
-| acmephp.titouangalopin.com   | Let's Encrypt Authority X3 | 2016-06-17 13:08:00 | 2016-09-15 13:08:00 | No             |
-+------------------------------+----------------------------+---------------------+---------------------+----------------+
-```
-
-## 5. Renew a certificate
+## 5. Renew your certificate
 
 If a certificate will expire soon, you will probably want to renew it. To do so, simply rerun the `request` command:
 
@@ -171,5 +121,22 @@ Let's Encrypt has this kind of limitation: renew only when required (one week be
 
 By default, the `request` command won't renew until one week before the expiration of the certificate. Therefore you
 can put it as a CRON every day and it will renew only when required.
+
+## 6. List the certificates handled by Acme PHP
+
+Using the command `./acmephp.phar status`, you can see what certificates are handled by the Acme PHP client
+and when they will expire. It's a useful tool to avoid expired certificates:
+
+``` console
+php acmephp.phar status
+
++------------------------------+----------------------------+---------------------+---------------------+----------------+
+| Domain                       | Issuer                     | Valid from          | Valid to            | Needs renewal? |
++------------------------------+----------------------------+---------------------+---------------------+----------------+
+| acmephp.titouangalopin.com   | Let's Encrypt Authority X3 | 2016-06-17 13:08:00 | 2016-09-15 13:08:00 | No             |
++------------------------------+----------------------------+---------------------+---------------------+----------------+
+```
+
+---------------------------------------------------------------------
 
 Next: [Configure your webserver](/documentation/cli/webserver.html)
