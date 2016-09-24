@@ -12,7 +12,7 @@ Acme PHP was built from the beginning with the idea to be easy to put in a CRON.
 The easiest part is to create the CRON.
 
 Acme PHP is smart enough to know when to renew a certificate: you don't need to think carefully when to schedule your
-CRON task, simmply run it every day and Acme PHP will check if the certificate needs renewal.
+CRON task, simply run it every day and Acme PHP will check if the certificate needs renewal.
 
 **Note:** a vast majority of webservers requires a restart or a reload after a certificate update, therefore you
 should run your CRON as root. You can also create two separate CRON if you don't want to execute Acme PHP as root.
@@ -73,3 +73,7 @@ and edit it to your needs.
 Note that there are two levels for monitoring alert handlers:
 - *info* level means that the handler will be triggered at every renewal, even if it succeeded ;
 - *error* level means that the handler will be triggered only if an error occurs during renewal ;
+
+---------------------------------------------------------------------
+
+Next: [Multi-domain certificates](/documentation/cli/get-multidomain-certificate.html)

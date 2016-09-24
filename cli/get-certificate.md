@@ -84,7 +84,7 @@ the `~/.acmephp` storage directory.
 6 files will be created in the storage directory:
   
 - **The full-chain certificate** at `~/.acmephp/master/certs/yourdomain.org/fullchain.pem`.
-  This file is the certificate itself. You probably want to use this file in your webserver configurationas it
+  This file is the certificate itself. You probably want to use this file in your webserver configuration as it
   includes all the issuers chain for a better compatibility with old devices.
 
 - **The certificate private key** at `~/.acmephp/master/private/yourdomain.org/private.pem`.
@@ -130,11 +130,11 @@ and when they will expire. It's a useful tool to avoid expired certificates:
 ``` console
 php acmephp.phar status
 
-+------------------------------+----------------------------+---------------------+---------------------+----------------+
-| Domain                       | Issuer                     | Valid from          | Valid to            | Needs renewal? |
-+------------------------------+----------------------------+---------------------+---------------------+----------------+
-| acmephp.titouangalopin.com   | Let's Encrypt Authority X3 | 2016-06-17 13:08:00 | 2016-09-15 13:08:00 | No             |
-+------------------------------+----------------------------+---------------------+---------------------+----------------+
++---------------+----------------------------+---------------------+---------------------+----------------+
+| Domain        | Issuer                     | Valid from          | Valid to            | Needs renewal? |
++---------------+----------------------------+---------------------+---------------------+----------------+
+| acmephp.com   | Let's Encrypt Authority X3 | 2016-06-17 13:08:00 | 2016-09-15 13:08:00 | No             |
++---------------+----------------------------+---------------------+---------------------+----------------+
 ```
 
 ---------------------------------------------------------------------
