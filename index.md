@@ -20,8 +20,8 @@ You can install it by running the following commands:
 
 ``` bash
 cd ~
-php -r "copy('https://github.com/acmephp/acmephp/releases/download/1.0.0-alpha10/acmephp.phar', 'acmephp.phar');"
-php -r "copy('https://github.com/acmephp/acmephp/releases/download/1.0.0-alpha10/acmephp.phar.pubkey', 'acmephp.phar.pubkey');"
+php -r "copy('https://github.com/acmephp/acmephp/releases/download/1.0.0-beta1/acmephp.phar', 'acmephp.phar');"
+php -r "copy('https://github.com/acmephp/acmephp/releases/download/1.0.0-beta1/acmephp.phar.pubkey', 'acmephp.phar.pubkey');"
 php acmephp.phar --version
 ```
 
