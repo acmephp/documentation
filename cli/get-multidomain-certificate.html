@@ -51,7 +51,7 @@
                         <h4 class="doc-menu-header">Command line tool</h4>
 
                         <ul class="doc-menu-sub">
-                                                            <li class="current">
+                                                            <li class="">
                                     <a href="https://acmephp.github.io/documentation/">
                                         Introduction and installation
                                     </a>
@@ -71,7 +71,7 @@
                                         Configure automatic renewal with monitoring
                                     </a>
                                 </li>
-                                                            <li class="">
+                                                            <li class="current">
                                     <a href="https://acmephp.github.io/documentation/cli/get-multidomain-certificate.html">
                                         Multi-domain certificates
                                     </a>
@@ -122,30 +122,47 @@
                 </a>
             </div>
 
-            <h1 id="acme-php">Acme PHP</h1>
-<p>Acme PHP is a simple yet very extensible command line tool that will let you get
-and renew free HTTPS certificates.</p>
-<p>It works with the <a href="https://letsencrypt.org/">Let's Encrypt certificate authority</a>,
-using the <a href="https://github.com/letsencrypt/acme-spec">ACME protocol</a>. In a few steps,
-you will be able to get a trusted certificate for any domain, freely and easily.</p>
-<h2 id="installation">Installation</h2>
-<p>Acme PHP is available as a single PHAR file to download on Github. For security purposes,
-this PHAR file is signed using OpenSSL to ensure you are using a valid Acme PHP binary.</p>
-<p>You can install it by running the following commands:</p>
-<pre><code class="language-bash">cd ~
-php -r "copy('https://github.com/acmephp/acmephp/releases/download/1.0.0-beta1/acmephp.phar', 'acmephp.phar');"
-php -r "copy('https://github.com/acmephp/acmephp/releases/download/1.0.0-beta1/acmephp.phar.pubkey', 'acmephp.phar.pubkey');"
-php acmephp.phar --version</code></pre>
-<p>If the last command display the Acme PHP version, you are ready to use Acme PHP.
-<a href="/documentation/cli/get-certificate.html">Start by getting your first certificate!</a></p>
-<h2 id="use-the-latest-development-version">Use the latest development version</h2>
-<p>While we strongly recommand you to use a stable (or at least pre-release) version, you can also use the latest
-development build if you need the latest features.</p>
-<p>You can install it by running the following commands:</p>
-<pre><code class="language-bash">cd ~
-php -r "copy('https://acmephp.github.io/downloads/acmephp.phar', 'acmephp.phar');"
-php -r "copy('https://acmephp.github.io/downloads/acmephp.phar.pubkey', 'acmephp.phar.pubkey');"
-php acmephp.phar --version</code></pre>
+            <h1 id="multi-domains-certificates">Multi-domains certificates</h1>
+<p>Let's Encrypt and most ACME servers are able to provide multi-domain certificates. Such certificates
+will be usable for multiple domains as a single file, which can be useful in many cases (for instance to
+use the same certificate for <code>yourdomain.org</code> and <code>www.yourdomain.org</code>).</p>
+<h2 id="obtain-a-multi-domain-certificate">Obtain a multi-domain certificate</h2>
+<p>The process of obtaining a multi-domain certificate is almost the same as
+<a href="documentation/cli/get-certificate.html">getting one for a single domain</a>.</p>
+<p>The only difference is when you use the <code>request</code> command, to add the other domains you want to support:</p>
+<pre><code class="language-console">php acmephp.phar request yourdomain.org -a www.yourdomain.org -a anotherdomain.org</code></pre>
+<p><strong>Note</strong>: you need to be the authorized owner of all the domains you request this way. In this case, it means
+you have to run the <code>authorize</code> and <code>check</code> commands for the domains <code>yourdomain.org</code>, <code>www.yourdomain.org</code>
+and <code>anotherdomain.org</code> before being able to request the multi-domains certificate.</p>
+<p>The process will be the same as with a simple certificate: the command will ask you some informations, request
+the certificate to the ACME server and store it under the <code>~/.acmephp</code> directory.</p>
+<p>The first domain will be considered the main domain of the certificate and any additionnal domain (provided using <code>-a</code>)
+will be considered an alternate domain. This means that Acme PHP will store all the certificate informations under the
+main domain (even if the certificate is a multi-domain one). In our case, this means 6 files will be created in the
+storage directory:</p>
+<ul>
+<li><strong>The full-chain certificate</strong> at <code>~/.acmephp/master/certs/yourdomain.org/fullchain.pem</code></li>
+<li><strong>The chain alone</strong> at <code>~/.acmephp/master/certs/yourdomain.org/chain.pem</code></li>
+<li><strong>The certificate alone</strong> at <code>~/.acmephp/master/certs/yourdomain.org/cert.pem</code></li>
+<li><strong>The combined certificate</strong> at <code>~/.acmephp/master/certs/yourdomain.org/combined.pem</code></li>
+<li><strong>The certificate private key</strong> at <code>~/.acmephp/master/private/yourdomain.org/private.pem</code></li>
+<li><strong>The certificate public key</strong> at <code>~/.acmephp/master/private/yourdomain.org/public.pem</code></li>
+</ul>
+<p>Check the <a href="https://acmephp.github.io/documentation/cli/get-certificate.html#4-get-your-certificate">single domain documentation</a>
+for more informations about these files.</p>
+<p><strong>Note</strong>: using the main domain as storage directory means that if you request another certificate with the same
+main domain, the previous one will be erased.</p>
+<p>Once requested, if you run the <code>status</code> command, you will see the following:</p>
+<pre><code class="language-console">+-------------------------+----------------------------+---------------------+---------------------+----------------+
+| Domain                  | Issuer                     | Valid from          | Valid to            | Needs renewal? |
++-------------------------+----------------------------+---------------------+---------------------+----------------+
+| yourdomain.org          | Let's Encrypt Authority X3 | 2016-09-23 10:12:00 | 2016-12-22 10:12:00 | No             |
+|  ├── www.yourdomain.org |                            |                     |                     |                |
+|  └── anotherdomain.org  |                            |                     |                     |                |
++-------------------------+----------------------------+---------------------+---------------------+----------------+</code></pre>
+<h2 id="renew-a-multi-domain-certificate">Renew a multi-domain certificate</h2>
+<p>The process is the same as for a single domain certificate: re-run the request command:</p>
+<pre><code class="language-console">php acmephp.phar request yourdomain.org -a www.yourdomain.org -a anotherdomain.org</code></pre>
         </div>
 
         <div class="clearfix"></div>

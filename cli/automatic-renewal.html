@@ -68,7 +68,12 @@
                                 </li>
                                                             <li class="current">
                                     <a href="https://acmephp.github.io/documentation/cli/automatic-renewal.html">
-                                        Configure automatic renewal (with monitoring)
+                                        Configure automatic renewal with monitoring
+                                    </a>
+                                </li>
+                                                            <li class="">
+                                    <a href="https://acmephp.github.io/documentation/cli/get-multidomain-certificate.html">
+                                        Multi-domain certificates
                                     </a>
                                 </li>
                                                     </ul>
@@ -123,7 +128,7 @@ Acme PHP was built from the beginning with the idea to be easy to put in a CRON.
 <h2 id="create-the-cron">Create the CRON</h2>
 <p>The easiest part is to create the CRON.</p>
 <p>Acme PHP is smart enough to know when to renew a certificate: you don't need to think carefully when to schedule your
-CRON task, simmply run it every day and Acme PHP will check if the certificate needs renewal.</p>
+CRON task, simply run it every day and Acme PHP will check if the certificate needs renewal.</p>
 <p><strong>Note:</strong> a vast majority of webservers requires a restart or a reload after a certificate update, therefore you
 should run your CRON as root. You can also create two separate CRON if you don't want to execute Acme PHP as root.</p>
 <p>Here is an example:</p>
@@ -169,6 +174,8 @@ and edit it to your needs.</p>
 <li><em>info</em> level means that the handler will be triggered at every renewal, even if it succeeded ;</li>
 <li><em>error</em> level means that the handler will be triggered only if an error occurs during renewal ;</li>
 </ul>
+<hr />
+<p>Next: <a href="/documentation/cli/get-multidomain-certificate.html">Multi-domain certificates</a></p>
         </div>
 
         <div class="clearfix"></div>
