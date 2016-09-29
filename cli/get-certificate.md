@@ -25,7 +25,7 @@ To do so, run the following command:
 php acmephp.phar register youremail@example.com
 ```
 
-This command will do four main things:
+This command will do three main things:
 - create a default configuration file `~/.acmephp/acmephp.conf` that you may edit for advanced usages of Acme PHP
 - generate a key pair for your account and store it in `~/.acmephp/master/private/_account`
 - register your account key in the Let's Encrypt/ACME server, associating it with your e-mail adress
