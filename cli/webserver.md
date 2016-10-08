@@ -60,3 +60,7 @@ frontend ft_test
     bind    :443 ssl crt /home/youruser/.acmephp/master/certs/yourdomain.org/combined.pem
     ...
 ```
+
+---------------------------------------------------------------------
+
+Next: [Configure automatic renewal](/documentation/cli/automatic-renewal.html)
