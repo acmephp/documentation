@@ -26,6 +26,9 @@ menu:
                 cli-get-multidomain-certificate:
                     text: Multi-domain certificates
                     relativeUrl: cli/get-multidomain-certificate.html
+                cli-dns-challenge:
+                    text: Prove you own a domain using DNS
+                    relativeUrl: cli/dns-challenge.html
         #        cli-copy-network:
         #            text: Copy your certificate over the network after generation
         #            relativeUrl: cli/copy-network.html
