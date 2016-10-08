@@ -17,7 +17,7 @@ you can start requesting certificates for your domains using it.
 ## 1. Register on the Let's Encrypt/ACME server
 
 The first thing we need to do is to generate a global private key (your "account key") that will be
-used for future exchanges with Let's Encyrpt to prove your identity.
+used for future exchanges with Let's Encrypt to prove your identity.
 
 To do so, run the following command:
 
@@ -32,7 +32,7 @@ This command will do three main things:
 
 ## 2. Prove you own the domain
 
-You can only request certificates for domains you own so you need to proove to the Let's Encrypt server that you own
+You can only request certificates for domains you own so you need to prove to the Let's Encrypt server that you own
 the domain.
 
 The principle is quite simple:
@@ -50,8 +50,8 @@ The first step is to get and expose the token. Run the following:
 # Get a token to expose
 php acmephp.phar authorize yourdomain.org
 
-# The command will display a lot of informations to help you expose the token properly.
-# Usually, a simple text file is enought to expose the token.
+# The command will display explainations to help you expose the token properly.
+# Usually, a simple text file is enough to expose the token.
 ```
 
 ## 3. Ask the server to check your proof
