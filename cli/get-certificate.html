@@ -135,7 +135,7 @@ you can start requesting certificates for your domains using it.</p>
 </ol>
 <h2 id="1-register-on-the-lets-encryptacme-server">1. Register on the Let's Encrypt/ACME server</h2>
 <p>The first thing we need to do is to generate a global private key (your &quot;account key&quot;) that will be
-used for future exchanges with Let's Encyrpt to prove your identity.</p>
+used for future exchanges with Let's Encrypt to prove your identity.</p>
 <p>To do so, run the following command:</p>
 <pre><code class="language-console">php acmephp.phar register youremail@example.com</code></pre>
 <p>This command will do three main things:</p>
@@ -145,7 +145,7 @@ used for future exchanges with Let's Encyrpt to prove your identity.</p>
 <li>register your account key in the Let's Encrypt/ACME server, associating it with your e-mail adress</li>
 </ul>
 <h2 id="2-prove-you-own-the-domain">2. Prove you own the domain</h2>
-<p>You can only request certificates for domains you own so you need to proove to the Let's Encrypt server that you own
+<p>You can only request certificates for domains you own so you need to prove to the Let's Encrypt server that you own
 the domain.</p>
 <p>The principle is quite simple:</p>
 <ul>
@@ -159,8 +159,8 @@ you keep the same account key.</p>
 <pre><code class="language-console"># Get a token to expose
 php acmephp.phar authorize yourdomain.org
 
-# The command will display a lot of informations to help you expose the token properly.
-# Usually, a simple text file is enought to expose the token.</code></pre>
+# The command will display explainations to help you expose the token properly.
+# Usually, a simple text file is enough to expose the token.</code></pre>
 <h2 id="3-ask-the-server-to-check-your-proof">3. Ask the server to check your proof</h2>
 <p>Once the token exposed (don't hesitate to check in your browser), run the following command to ask the server
 to check your proof:</p>
