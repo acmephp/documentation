@@ -76,6 +76,11 @@
                                         Multi-domain certificates
                                     </a>
                                 </li>
+                                                            <li class="">
+                                    <a href="https://acmephp.github.io/documentation/cli/dns-challenge.html">
+                                        Prove you own a domain using DNS
+                                    </a>
+                                </li>
                                                     </ul>
                     </li>
                                         <li>
@@ -152,6 +157,9 @@ the domain.</p>
 <li>You ask the server for a token and expose it on a specific URL given by the server</li>
 <li>The server check that URL and verify the token is properly exposed there</li>
 </ul>
+<p><strong>Note:</strong> This technique is called HTTP checking as it uses a HTTP request to check your ownership.
+You can also use <a href="/documentation/cli/dns-challenge.html">DNS checking</a> which uses a DNS TXT field to expose the token
+(it may be easier in your specific context).</p>
 <p>Using this technique, you proved your server is responding behind the concerned domain.</p>
 <p><strong>Note:</strong> You only need to prove once that you own a domain (certificates renewals won't require it), as long as
 you keep the same account key.</p>

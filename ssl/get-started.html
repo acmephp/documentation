@@ -76,6 +76,11 @@
                                         Multi-domain certificates
                                     </a>
                                 </li>
+                                                            <li class="">
+                                    <a href="https://acmephp.github.io/documentation/cli/dns-challenge.html">
+                                        Prove you own a domain using DNS
+                                    </a>
+                                </li>
                                                     </ul>
                     </li>
                                         <li>
@@ -127,7 +132,49 @@
 <p>You will need the PHP OpenSSL extension to use Acme PHP SSL.</p>
 <p>Install this library using Composer:</p>
 <pre><code class="language-bash">composer require acmephp/ssl</code></pre>
-<h2 id="usage">Usage</h2>
+<h2 id="usage-examples">Usage examples</h2>
+<h3 id="sign-data-with-a-private-key">Sign data with a private key</h3>
+<pre><code class="language-php">&lt;?php
+$signer = new AcmePhp\Ssl\Signer\DataSigner();
+$privateKey = new AcmePhp\Ssl\PrivateKey($pemString);
+
+var_dump($signer-&gt;signData($customData, $privateKey));</code></pre>
+<h3 id="parse-a-ssl-certificate-to-extract-its-metadata">Parse a SSL certificate to extract its metadata</h3>
+<pre><code class="language-php">&lt;?php
+$parser = new AcmePhp\Ssl\Parser\CertificateParser();
+
+$rawCertificate = new AcmePhp\Ssl\Certificate($pemString);
+$parsedCertificate = $parser-&gt;parse($rawCertificate);
+
+var_dump($parsedKey-&gt;getSource());
+var_dump($parsedKey-&gt;getSubject());
+var_dump($parsedKey-&gt;getIssuer());
+var_dump($parsedKey-&gt;isSelfSigned());
+var_dump($parsedKey-&gt;getValidFrom());
+var_dump($parsedKey-&gt;getValidTo());
+var_dump($parsedKey-&gt;getSerialNumber());
+var_dump($parsedKey-&gt;getSubjectAlternativeNames());</code></pre>
+<h3 id="generate-a-key-pair-a-private-key-and-its-associated-public-key">Generate a key pair (a private key and its associated public key)</h3>
+<pre><code class="language-php">&lt;?php
+$generator = new AcmePhp\Ssl\Generator\KeyPairGenerator();
+
+$keyPair = $generator-&gt;generateKeyPair();
+
+var_dump($keyPair-&gt;getPublicKey()-&gt;getPEM());
+var_dump($keyPair-&gt;getPrivateKey()-&gt;getPEM());</code></pre>
+<h3 id="parse-a-key-to-extract-its-metadata">Parse a key to extract its metadata</h3>
+<pre><code class="language-php">&lt;?php
+$parser = new AcmePhp\Ssl\Parser\KeyParser();
+
+$rawKey = new AcmePhp\Ssl\PrivateKey($pemString);
+$parsedKey = $parser-&gt;parse($rawKey);
+
+var_dump($parsedKey-&gt;getSource());
+var_dump($parsedKey-&gt;getKey());
+var_dump($parsedKey-&gt;getBits());
+var_dump($parsedKey-&gt;getType());
+var_dump($parsedKey-&gt;getDetails());</code></pre>
+<h2 id="api-documentation">API documentation</h2>
 <h3 id="ssl-entities">SSL entities</h3>
 <p>This library provides the following SSL entities:</p>
 <ul>

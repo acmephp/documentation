@@ -76,7 +76,7 @@
                                         Multi-domain certificates
                                     </a>
                                 </li>
-                                                            <li class="">
+                                                            <li class="current">
                                     <a href="https://acmephp.github.io/documentation/cli/dns-challenge.html">
                                         Prove you own a domain using DNS
                                     </a>
@@ -127,8 +127,40 @@
                 </a>
             </div>
 
-            <h1 id="update-your-heroku-certificate">Update your Heroku certificate</h1>
-<p>TODO</p>
+            <h1 id="use-the-dns-challenge-to-prove-you-own-a-domain">Use the DNS challenge to prove you own a domain</h1>
+<p>By default, Acme PHP will use a HTTP challenge to prove you own a domain: you will create a file the ACME server
+will access to verify the token you exposed.</p>
+<p>However it is possible to use DNS to check your ownership over a domain: instead of exposing a file, you will expose
+a TXT field.</p>
+<h2 id="get-the-token-to-expose">Get the token to expose</h2>
+<p>To use DNS challenge, run the authorize command with the <code>--solver dns</code> argument:</p>
+<pre><code class="language-console">$ php acmephp.phar authorize --solver dns yourdomain.org
+
+The authorization token was successfully fetched!
+    Add the following TXT record to your DNS zone
+        Domain: _acme-challenge.yourdomain.org.
+        TXT value: zExIQaKdxouvZ6rbpYApsawiwgINj3zbmXym-KhuNsA
+
+    Wait for the propagation before moving to the next step
+    Tips: Use the following command to check the propagation
+
+        host -t TXT _acme-challenge.yourdomain.org.
+
+Then, you can ask to the CA to check the challenge!
+    Call the check command to ask the server to check your URL:
+
+    php acmephp.phar check -s dns yourdomain.org</code></pre>
+<h2 id="add-a-dns-txt-field-for-the-token">Add a DNS TXT field for the token</h2>
+<p>You have now to create a DNS TXT field for the token:</p>
+<pre><code>Add the following TXT record to your DNS zone
+    Domain: _acme-challenge.yourdomain.org.
+    TXT value: zExIQaKdxouvZ6rbpYApsawiwgINj3zbmXym-KhuNsA</code></pre>
+<h2 id="ask-for-the-server-to-check-your-proof">Ask for the server to check your proof</h2>
+<p>Once done, wait a few minutes for DNS propagation. When the field is ready, run
+the check command with the <code>--solver dns</code> argument:</p>
+<pre><code class="language-console">php acmephp.phar check --solver dns yourdomain.org</code></pre>
+<hr />
+<p>Next: <a href="/documentation/cli/get-certificate.html#4-get-your-certificate">Continue the process to get the certificate</a></p>
         </div>
 
         <div class="clearfix"></div>
