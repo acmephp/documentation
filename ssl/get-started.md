@@ -14,7 +14,66 @@ Install this library using Composer:
 composer require acmephp/ssl
 ```
 
-## Usage
+## Usage examples
+
+### Sign data with a private key
+
+``` php
+<?php
+$signer = new AcmePhp\Ssl\Signer\DataSigner();
+$privateKey = new AcmePhp\Ssl\PrivateKey($pemString);
+
+var_dump($signer->signData($customData, $privateKey));
+```
+
+### Parse a SSL certificate to extract its metadata
+
+``` php
+<?php
+$parser = new AcmePhp\Ssl\Parser\CertificateParser();
+
+$rawCertificate = new AcmePhp\Ssl\Certificate($pemString);
+$parsedCertificate = $parser->parse($rawCertificate);
+
+var_dump($parsedKey->getSource());
+var_dump($parsedKey->getSubject());
+var_dump($parsedKey->getIssuer());
+var_dump($parsedKey->isSelfSigned());
+var_dump($parsedKey->getValidFrom());
+var_dump($parsedKey->getValidTo());
+var_dump($parsedKey->getSerialNumber());
+var_dump($parsedKey->getSubjectAlternativeNames());
+```
+
+### Generate a key pair (a private key and its associated public key)
+
+``` php
+<?php
+$generator = new AcmePhp\Ssl\Generator\KeyPairGenerator();
+
+$keyPair = $generator->generateKeyPair();
+
+var_dump($keyPair->getPublicKey()->getPEM());
+var_dump($keyPair->getPrivateKey()->getPEM());
+```
+
+### Parse a key to extract its metadata
+
+``` php
+<?php
+$parser = new AcmePhp\Ssl\Parser\KeyParser();
+
+$rawKey = new AcmePhp\Ssl\PrivateKey($pemString);
+$parsedKey = $parser->parse($rawKey);
+
+var_dump($parsedKey->getSource());
+var_dump($parsedKey->getKey());
+var_dump($parsedKey->getBits());
+var_dump($parsedKey->getType());
+var_dump($parsedKey->getDetails());
+```
+
+## API documentation
 
 ### SSL entities
 
