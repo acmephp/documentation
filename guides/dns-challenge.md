@@ -1,5 +1,5 @@
 ---
-currentMenu: cli-dns-challenge
+currentMenu: guides-dns-challenge
 ---
 
 # Use the DNS challenge to prove you own a domain
@@ -51,7 +51,3 @@ the check command with the `--solver dns` argument:
 ``` console
 php acmephp.phar check --solver dns yourdomain.org
 ```
-
----------------------------------------------------------------------
-
-Next: [Continue the process to get the certificate](/documentation/cli/get-certificate.html#4-get-your-certificate)

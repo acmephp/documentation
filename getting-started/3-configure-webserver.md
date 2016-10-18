@@ -1,5 +1,5 @@
 ---
-currentMenu: cli-webserver
+currentMenu: getting-started-configure-webserver
 ---
 
 # Configure your webserver
@@ -63,4 +63,4 @@ frontend ft_test
 
 ---------------------------------------------------------------------
 
-Next: [Configure automatic renewal](/documentation/cli/automatic-renewal.html)
+Next: [Configure automatic renewal](/documentation/getting-started/4-automatic-renewal.html)

@@ -1,11 +1,13 @@
 ---
-currentMenu: cli-get-certificate
+currentMenu: getting-started-obtain-certificate
 ---
 
-# Get started with Acme PHP
+# Obtain a certificate
 
 Now Acme PHP is available on your system (`php acmephp.phar --version` should display its version),
 you can start requesting certificates for your domains using it.
+
+Several steps are required to do so (note that only the 4th one will be necessary during renewal):
 
 1. [Register on the Let's Encrypt/ACME server](#1-register-on-the-lets-encryptacme-server)
 2. [Prove you own the domain](#2-prove-you-own-the-domain)
@@ -40,7 +42,7 @@ The principle is quite simple:
 - The server check that URL and verify the token is properly exposed there
 
 **Note:** This technique is called HTTP checking as it uses a HTTP request to check your ownership.
-You can also use [DNS checking](/documentation/cli/dns-challenge.html) which uses a DNS TXT field to expose the token
+You can also use [DNS checking](/documentation/guides/dns-challenge.html) which uses a DNS TXT field to expose the token
 (it may be easier in your specific context).
 
 Using this technique, you proved your server is responding behind the concerned domain.
@@ -107,7 +109,7 @@ the `~/.acmephp` storage directory.
 - **The certificate public key** at `~/.acmephp/master/private/yourdomain.org/public.pem`.
   You probably won't need it, but it's still available here.
 
-You can now [configure your webserver](/documentation/cli/webserver.html)!
+You can now [configure your webserver](/documentation/getting-started/3-configure-webserver.html)!
 
 ## 5. Renew your certificate
 
@@ -143,4 +145,4 @@ php acmephp.phar status
 
 ---------------------------------------------------------------------
 
-Next: [Configure your webserver](/documentation/cli/webserver.html)
+Next: [Configure your webserver](/documentation/getting-started/3-configure-webserver.html)

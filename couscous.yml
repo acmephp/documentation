@@ -9,26 +9,30 @@ template:
     index: index.md
 menu:
     sections:
-        cli:
-            name: Command line tool
+        getting-started:
+            name: Getting started
             items:
-                cli-introduction:
-                    text: Introduction and installation
-                cli-get-certificate:
-                    text: Get a certificate
-                    relativeUrl: cli/get-certificate.html
-                cli-webserver:
-                    text: Configure your webserver
-                    relativeUrl: cli/webserver.html
-                cli-automatic-renewal:
-                    text: Configure automatic renewal with monitoring
-                    relativeUrl: cli/automatic-renewal.html
-                cli-get-multidomain-certificate:
+                getting-started-introduction:
+                    text: 1. Installation
+                    relativeUrl: getting-started/1-installation.html
+                getting-started-obtain-certificate:
+                    text: 2. Obtain a certificate
+                    relativeUrl: getting-started/2-obtain-certificate.html
+                getting-started-configure-webserver:
+                    text: 3. Configure your webserver
+                    relativeUrl: getting-started/3-configure-webserver.html
+                getting-started-automatic-renewal:
+                    text: 4. Setup automatic renewal
+                    relativeUrl: getting-started/4-automatic-renewal.html
+        guides:
+            name: Guides
+            items:
+                guides-multidomain-certificate:
                     text: Multi-domain certificates
-                    relativeUrl: cli/get-multidomain-certificate.html
-                cli-dns-challenge:
+                    relativeUrl: guides/multidomain-certificates.html
+                guides-dns-challenge:
                     text: Prove you own a domain using DNS
-                    relativeUrl: cli/dns-challenge.html
+                    relativeUrl: guides/dns-challenge.html
         #        cli-copy-network:
         #            text: Copy your certificate over the network after generation
         #            relativeUrl: cli/copy-network.html

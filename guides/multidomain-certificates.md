@@ -1,5 +1,5 @@
 ---
-currentMenu: cli-get-multidomain-certificate
+currentMenu: guides-multidomain-certificate
 ---
 
 # Multi-domains certificates
@@ -11,7 +11,7 @@ use the same certificate for `yourdomain.org` and `www.yourdomain.org`).
 ## Obtain a multi-domain certificate
 
 The process of obtaining a multi-domain certificate is almost the same as
-[getting one for a single domain](documentation/cli/get-certificate.html).
+[getting one for a single domain](/documentation/getting-started/2-obtain-certificate.html).
 
 The only difference is when you use the `request` command, to add the other domains you want to support:
 
@@ -38,7 +38,7 @@ storage directory:
 - **The certificate private key** at `~/.acmephp/master/private/yourdomain.org/private.pem`
 - **The certificate public key** at `~/.acmephp/master/private/yourdomain.org/public.pem`
 
-Check the [single domain documentation](https://acmephp.github.io/documentation/cli/get-certificate.html#4-get-your-certificate)
+Check the [single domain documentation](/documentation/getting-started/2-obtain-certificate.html#4-get-your-certificate)
 for more informations about these files.
 
 **Note**: using the main domain as storage directory means that if you request another certificate with the same

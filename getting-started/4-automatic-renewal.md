@@ -1,8 +1,8 @@
 ---
-currentMenu: cli-automatic-renewal
+currentMenu: getting-started-automatic-renewal
 ---
 
-# Configure automatic renewal (with monitoring)
+# Setup automatic renewal with monitoring
 
 An awesome feature coming with Let's Encrypt automation is the possibility of automatically renew your certificates.
 Acme PHP was built from the beginning with the idea to be easy to put in a CRON.
@@ -73,7 +73,3 @@ and edit it to your needs.
 Note that there are two levels for monitoring alert handlers:
 - *info* level means that the handler will be triggered at every renewal, even if it succeeded ;
 - *error* level means that the handler will be triggered only if an error occurs during renewal ;
-
----------------------------------------------------------------------
-
-Next: [Multi-domain certificates](/documentation/cli/get-multidomain-certificate.html)

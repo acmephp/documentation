@@ -9,8 +9,8 @@ to interact with Let's Encrypt.
 
 ## When use Acme PHP Core?
 
-You usually will want to use either [the Acme PHP CLI client](/documentation)
-or [an implementation for your application framework](https://github.com/acmephp).
+You usually will want to use either the Acme PHP CLI client or an implementation for your 
+favorite framework.
 
 However, in some cases, you may want to manage your SSL certificates from the application itself.
 In these cases, this library will be useful to you.
