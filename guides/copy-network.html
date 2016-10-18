@@ -48,36 +48,42 @@
             <nav role="navigation">
                 <ul class="doc-menu-list">
                                         <li>
-                        <h4 class="doc-menu-header">Command line tool</h4>
+                        <h4 class="doc-menu-header">Getting started</h4>
 
                         <ul class="doc-menu-sub">
                                                             <li class="">
-                                    <a href="https://acmephp.github.io/documentation/">
-                                        Introduction and installation
+                                    <a href="https://acmephp.github.io/documentation/getting-started/1-installation.html">
+                                        1. Installation
                                     </a>
                                 </li>
                                                             <li class="">
-                                    <a href="https://acmephp.github.io/documentation/cli/get-certificate.html">
-                                        Get a certificate
+                                    <a href="https://acmephp.github.io/documentation/getting-started/2-obtain-certificate.html">
+                                        2. Obtain a certificate
                                     </a>
                                 </li>
                                                             <li class="">
-                                    <a href="https://acmephp.github.io/documentation/cli/webserver.html">
-                                        Configure your webserver
+                                    <a href="https://acmephp.github.io/documentation/getting-started/3-configure-webserver.html">
+                                        3. Configure your webserver
                                     </a>
                                 </li>
                                                             <li class="">
-                                    <a href="https://acmephp.github.io/documentation/cli/automatic-renewal.html">
-                                        Configure automatic renewal with monitoring
+                                    <a href="https://acmephp.github.io/documentation/getting-started/4-automatic-renewal.html">
+                                        4. Setup automatic renewal
                                     </a>
                                 </li>
-                                                            <li class="current">
-                                    <a href="https://acmephp.github.io/documentation/cli/get-multidomain-certificate.html">
+                                                    </ul>
+                    </li>
+                                        <li>
+                        <h4 class="doc-menu-header">Guides</h4>
+
+                        <ul class="doc-menu-sub">
+                                                            <li class="">
+                                    <a href="https://acmephp.github.io/documentation/guides/multidomain-certificates.html">
                                         Multi-domain certificates
                                     </a>
                                 </li>
                                                             <li class="">
-                                    <a href="https://acmephp.github.io/documentation/cli/dns-challenge.html">
+                                    <a href="https://acmephp.github.io/documentation/guides/dns-challenge.html">
                                         Prove you own a domain using DNS
                                     </a>
                                 </li>
@@ -127,47 +133,8 @@
                 </a>
             </div>
 
-            <h1 id="multi-domains-certificates">Multi-domains certificates</h1>
-<p>Let's Encrypt and most ACME servers are able to provide multi-domain certificates. Such certificates
-will be usable for multiple domains as a single file, which can be useful in many cases (for instance to
-use the same certificate for <code>yourdomain.org</code> and <code>www.yourdomain.org</code>).</p>
-<h2 id="obtain-a-multi-domain-certificate">Obtain a multi-domain certificate</h2>
-<p>The process of obtaining a multi-domain certificate is almost the same as
-<a href="documentation/cli/get-certificate.html">getting one for a single domain</a>.</p>
-<p>The only difference is when you use the <code>request</code> command, to add the other domains you want to support:</p>
-<pre><code class="language-console">php acmephp.phar request yourdomain.org -a www.yourdomain.org -a anotherdomain.org</code></pre>
-<p><strong>Note</strong>: you need to be the authorized owner of all the domains you request this way. In this case, it means
-you have to run the <code>authorize</code> and <code>check</code> commands for the domains <code>yourdomain.org</code>, <code>www.yourdomain.org</code>
-and <code>anotherdomain.org</code> before being able to request the multi-domains certificate.</p>
-<p>The process will be the same as with a simple certificate: the command will ask you some informations, request
-the certificate to the ACME server and store it under the <code>~/.acmephp</code> directory.</p>
-<p>The first domain will be considered the main domain of the certificate and any additionnal domain (provided using <code>-a</code>)
-will be considered an alternate domain. This means that Acme PHP will store all the certificate informations under the
-main domain (even if the certificate is a multi-domain one). In our case, this means 6 files will be created in the
-storage directory:</p>
-<ul>
-<li><strong>The full-chain certificate</strong> at <code>~/.acmephp/master/certs/yourdomain.org/fullchain.pem</code></li>
-<li><strong>The chain alone</strong> at <code>~/.acmephp/master/certs/yourdomain.org/chain.pem</code></li>
-<li><strong>The certificate alone</strong> at <code>~/.acmephp/master/certs/yourdomain.org/cert.pem</code></li>
-<li><strong>The combined certificate</strong> at <code>~/.acmephp/master/certs/yourdomain.org/combined.pem</code></li>
-<li><strong>The certificate private key</strong> at <code>~/.acmephp/master/private/yourdomain.org/private.pem</code></li>
-<li><strong>The certificate public key</strong> at <code>~/.acmephp/master/private/yourdomain.org/public.pem</code></li>
-</ul>
-<p>Check the <a href="https://acmephp.github.io/documentation/cli/get-certificate.html#4-get-your-certificate">single domain documentation</a>
-for more informations about these files.</p>
-<p><strong>Note</strong>: using the main domain as storage directory means that if you request another certificate with the same
-main domain, the previous one will be erased.</p>
-<p>Once requested, if you run the <code>status</code> command, you will see the following:</p>
-<pre><code class="language-console">+-------------------------+----------------------------+---------------------+---------------------+----------------+
-| Domain                  | Issuer                     | Valid from          | Valid to            | Needs renewal? |
-+-------------------------+----------------------------+---------------------+---------------------+----------------+
-| yourdomain.org          | Let's Encrypt Authority X3 | 2016-09-23 10:12:00 | 2016-12-22 10:12:00 | No             |
-|  ├── www.yourdomain.org |                            |                     |                     |                |
-|  └── anotherdomain.org  |                            |                     |                     |                |
-+-------------------------+----------------------------+---------------------+---------------------+----------------+</code></pre>
-<h2 id="renew-a-multi-domain-certificate">Renew a multi-domain certificate</h2>
-<p>The process is the same as for a single domain certificate: re-run the request command:</p>
-<pre><code class="language-console">php acmephp.phar request yourdomain.org -a www.yourdomain.org -a anotherdomain.org</code></pre>
+            <h1 id="copy-your-certificates-over-the-network">Copy your certificates over the network</h1>
+<p>TODO</p>
         </div>
 
         <div class="clearfix"></div>

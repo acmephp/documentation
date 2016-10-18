@@ -48,36 +48,42 @@
             <nav role="navigation">
                 <ul class="doc-menu-list">
                                         <li>
-                        <h4 class="doc-menu-header">Command line tool</h4>
+                        <h4 class="doc-menu-header">Getting started</h4>
 
                         <ul class="doc-menu-sub">
                                                             <li class="">
-                                    <a href="https://acmephp.github.io/documentation/">
-                                        Introduction and installation
+                                    <a href="https://acmephp.github.io/documentation/getting-started/1-installation.html">
+                                        1. Installation
                                     </a>
                                 </li>
                                                             <li class="">
-                                    <a href="https://acmephp.github.io/documentation/cli/get-certificate.html">
-                                        Get a certificate
+                                    <a href="https://acmephp.github.io/documentation/getting-started/2-obtain-certificate.html">
+                                        2. Obtain a certificate
                                     </a>
                                 </li>
                                                             <li class="">
-                                    <a href="https://acmephp.github.io/documentation/cli/webserver.html">
-                                        Configure your webserver
+                                    <a href="https://acmephp.github.io/documentation/getting-started/3-configure-webserver.html">
+                                        3. Configure your webserver
                                     </a>
                                 </li>
-                                                            <li class="">
-                                    <a href="https://acmephp.github.io/documentation/cli/automatic-renewal.html">
-                                        Configure automatic renewal with monitoring
+                                                            <li class="current">
+                                    <a href="https://acmephp.github.io/documentation/getting-started/4-automatic-renewal.html">
+                                        4. Setup automatic renewal
                                     </a>
                                 </li>
+                                                    </ul>
+                    </li>
+                                        <li>
+                        <h4 class="doc-menu-header">Guides</h4>
+
+                        <ul class="doc-menu-sub">
                                                             <li class="">
-                                    <a href="https://acmephp.github.io/documentation/cli/get-multidomain-certificate.html">
+                                    <a href="https://acmephp.github.io/documentation/guides/multidomain-certificates.html">
                                         Multi-domain certificates
                                     </a>
                                 </li>
                                                             <li class="">
-                                    <a href="https://acmephp.github.io/documentation/cli/dns-challenge.html">
+                                    <a href="https://acmephp.github.io/documentation/guides/dns-challenge.html">
                                         Prove you own a domain using DNS
                                     </a>
                                 </li>
@@ -127,8 +133,58 @@
                 </a>
             </div>
 
-            <h1 id="copy-your-certificates-over-the-network">Copy your certificates over the network</h1>
-<p>TODO</p>
+            <h1 id="setup-automatic-renewal-with-monitoring">Setup automatic renewal with monitoring</h1>
+<p>An awesome feature coming with Let's Encrypt automation is the possibility of automatically renew your certificates.
+Acme PHP was built from the beginning with the idea to be easy to put in a CRON.</p>
+<h2 id="create-the-cron">Create the CRON</h2>
+<p>The easiest part is to create the CRON.</p>
+<p>Acme PHP is smart enough to know when to renew a certificate: you don't need to think carefully when to schedule your
+CRON task, simply run it every day and Acme PHP will check if the certificate needs renewal.</p>
+<p><strong>Note:</strong> a vast majority of webservers requires a restart or a reload after a certificate update, therefore you
+should run your CRON as root. You can also create two separate CRON if you don't want to execute Acme PHP as root.</p>
+<p>Here is an example:</p>
+<pre><code>0 0 * * * php /home/youruser/acmephp.phar request yourdomain.org &gt;/dev/null 2&gt;&amp;1 &amp;&amp; service nginx reload</code></pre>
+<p>You may also want to save the output to a log file (note that monitoring is much more powerful though):</p>
+<pre><code>0 0 * * * php /home/youruser/acmephp.phar request yourdomain.org &gt; /var/log/acmephp.log &amp;&amp; service nginx reload</code></pre>
+<h2 id="configure-monitoring">Configure monitoring</h2>
+<p>A very powerful feature of Acme PHP is monitoring: the CLI client will warn you when a renewal failed. Different
+alerts are available, such as e-mail or Slack.</p>
+<p>To enable monitoring, you need to edit the Acme PHP configuration file (<code>~/.acmephp/acmephp.conf</code>):</p>
+<pre><code class="language-yaml">###################################################################
+# Monitoring
+#
+# This section let you configure a simple monitoring mechanism that
+# will warn you if an error occurs during a CRON job.
+#
+
+monitoring: ~   # Monitoring is disabled by default
+
+# You can enabled it by configuring at least one alert handler.
+# You can change the default handler level to decide when to be alerted
+# (only when an error occurs or every time the CRON is started).
+#monitoring:
+#    email:   # Only SMTP(S) support for now
+#        to: galopintitouan@gmail.com
+#        host: smtp.example.com
+#        # port: 25
+#        # username: ~
+#        # password: ~
+#        # encryption: ~
+#        # subject: An error occured during Acme PHP CRON renewal
+#        # level: error     # By default, only on error for email handler
+#
+#    slack:
+#        token: your_token
+#        channel: #general
+#        # username: Acme PHP
+#        # level: info      # By default, on every CRON for slack handler</code></pre>
+<p>This configuration is quite straight-forward: simply remove the <code>monitoring: ~</code> line, uncomment the monitoring part
+and edit it to your needs.</p>
+<p>Note that there are two levels for monitoring alert handlers:</p>
+<ul>
+<li><em>info</em> level means that the handler will be triggered at every renewal, even if it succeeded ;</li>
+<li><em>error</em> level means that the handler will be triggered only if an error occurs during renewal ;</li>
+</ul>
         </div>
 
         <div class="clearfix"></div>

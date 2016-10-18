@@ -48,36 +48,42 @@
             <nav role="navigation">
                 <ul class="doc-menu-list">
                                         <li>
-                        <h4 class="doc-menu-header">Command line tool</h4>
+                        <h4 class="doc-menu-header">Getting started</h4>
 
                         <ul class="doc-menu-sub">
-                                                            <li class="current">
-                                    <a href="https://acmephp.github.io/documentation/">
-                                        Introduction and installation
+                                                            <li class="">
+                                    <a href="https://acmephp.github.io/documentation/getting-started/1-installation.html">
+                                        1. Installation
                                     </a>
                                 </li>
                                                             <li class="">
-                                    <a href="https://acmephp.github.io/documentation/cli/get-certificate.html">
-                                        Get a certificate
+                                    <a href="https://acmephp.github.io/documentation/getting-started/2-obtain-certificate.html">
+                                        2. Obtain a certificate
                                     </a>
                                 </li>
                                                             <li class="">
-                                    <a href="https://acmephp.github.io/documentation/cli/webserver.html">
-                                        Configure your webserver
+                                    <a href="https://acmephp.github.io/documentation/getting-started/3-configure-webserver.html">
+                                        3. Configure your webserver
                                     </a>
                                 </li>
                                                             <li class="">
-                                    <a href="https://acmephp.github.io/documentation/cli/automatic-renewal.html">
-                                        Configure automatic renewal with monitoring
+                                    <a href="https://acmephp.github.io/documentation/getting-started/4-automatic-renewal.html">
+                                        4. Setup automatic renewal
                                     </a>
                                 </li>
+                                                    </ul>
+                    </li>
+                                        <li>
+                        <h4 class="doc-menu-header">Guides</h4>
+
+                        <ul class="doc-menu-sub">
                                                             <li class="">
-                                    <a href="https://acmephp.github.io/documentation/cli/get-multidomain-certificate.html">
+                                    <a href="https://acmephp.github.io/documentation/guides/multidomain-certificates.html">
                                         Multi-domain certificates
                                     </a>
                                 </li>
                                                             <li class="">
-                                    <a href="https://acmephp.github.io/documentation/cli/dns-challenge.html">
+                                    <a href="https://acmephp.github.io/documentation/guides/dns-challenge.html">
                                         Prove you own a domain using DNS
                                     </a>
                                 </li>
@@ -133,24 +139,7 @@ and renew free HTTPS certificates.</p>
 <p>It works with the <a href="https://letsencrypt.org/">Let's Encrypt certificate authority</a>,
 using the <a href="https://github.com/letsencrypt/acme-spec">ACME protocol</a>. In a few steps,
 you will be able to get a trusted certificate for any domain, freely and easily.</p>
-<h2 id="installation">Installation</h2>
-<p>Acme PHP is available as a single PHAR file to download on Github. For security purposes,
-this PHAR file is signed using OpenSSL to ensure you are using a valid Acme PHP binary.</p>
-<p>You can install it by running the following commands:</p>
-<pre><code class="language-bash">cd ~
-php -r "copy('https://github.com/acmephp/acmephp/releases/download/1.0.0-beta1/acmephp.phar', 'acmephp.phar');"
-php -r "copy('https://github.com/acmephp/acmephp/releases/download/1.0.0-beta1/acmephp.phar.pubkey', 'acmephp.phar.pubkey');"
-php acmephp.phar --version</code></pre>
-<p>If the last command display the Acme PHP version, you are ready to use Acme PHP.
-<a href="/documentation/cli/get-certificate.html">Start by getting your first certificate!</a></p>
-<h2 id="use-the-latest-development-version">Use the latest development version</h2>
-<p>While we strongly recommand you to use a stable (or at least pre-release) version, you can also use the latest
-development build if you need the latest features.</p>
-<p>You can install it by running the following commands:</p>
-<pre><code class="language-bash">cd ~
-php -r "copy('https://acmephp.github.io/downloads/acmephp.phar', 'acmephp.phar');"
-php -r "copy('https://acmephp.github.io/downloads/acmephp.phar.pubkey', 'acmephp.phar.pubkey');"
-php acmephp.phar --version</code></pre>
+<p><a href="/documentation/getting-started/1-installation.html">Start by installing Acme PHP and getting your first certificate!</a></p>
         </div>
 
         <div class="clearfix"></div>

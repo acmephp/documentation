@@ -77,7 +77,7 @@
                         <h4 class="doc-menu-header">Guides</h4>
 
                         <ul class="doc-menu-sub">
-                                                            <li class="">
+                                                            <li class="current">
                                     <a href="https://acmephp.github.io/documentation/guides/multidomain-certificates.html">
                                         Multi-domain certificates
                                     </a>
@@ -114,7 +114,7 @@
                                         Introduction
                                     </a>
                                 </li>
-                                                            <li class="current">
+                                                            <li class="">
                                     <a href="https://acmephp.github.io/documentation/ssl/get-started.html">
                                         Get started
                                     </a>
@@ -133,85 +133,47 @@
                 </a>
             </div>
 
-            <h1 id="get-started">Get started</h1>
-<h2 id="installation">Installation</h2>
-<p>You will need the PHP OpenSSL extension to use Acme PHP SSL.</p>
-<p>Install this library using Composer:</p>
-<pre><code class="language-bash">composer require acmephp/ssl</code></pre>
-<h2 id="usage-examples">Usage examples</h2>
-<h3 id="sign-data-with-a-private-key">Sign data with a private key</h3>
-<pre><code class="language-php">&lt;?php
-$signer = new AcmePhp\Ssl\Signer\DataSigner();
-$privateKey = new AcmePhp\Ssl\PrivateKey($pemString);
-
-var_dump($signer-&gt;signData($customData, $privateKey));</code></pre>
-<h3 id="parse-a-ssl-certificate-to-extract-its-metadata">Parse a SSL certificate to extract its metadata</h3>
-<pre><code class="language-php">&lt;?php
-$parser = new AcmePhp\Ssl\Parser\CertificateParser();
-
-$rawCertificate = new AcmePhp\Ssl\Certificate($pemString);
-$parsedCertificate = $parser-&gt;parse($rawCertificate);
-
-var_dump($parsedKey-&gt;getSource());
-var_dump($parsedKey-&gt;getSubject());
-var_dump($parsedKey-&gt;getIssuer());
-var_dump($parsedKey-&gt;isSelfSigned());
-var_dump($parsedKey-&gt;getValidFrom());
-var_dump($parsedKey-&gt;getValidTo());
-var_dump($parsedKey-&gt;getSerialNumber());
-var_dump($parsedKey-&gt;getSubjectAlternativeNames());</code></pre>
-<h3 id="generate-a-key-pair-a-private-key-and-its-associated-public-key">Generate a key pair (a private key and its associated public key)</h3>
-<pre><code class="language-php">&lt;?php
-$generator = new AcmePhp\Ssl\Generator\KeyPairGenerator();
-
-$keyPair = $generator-&gt;generateKeyPair();
-
-var_dump($keyPair-&gt;getPublicKey()-&gt;getPEM());
-var_dump($keyPair-&gt;getPrivateKey()-&gt;getPEM());</code></pre>
-<h3 id="parse-a-key-to-extract-its-metadata">Parse a key to extract its metadata</h3>
-<pre><code class="language-php">&lt;?php
-$parser = new AcmePhp\Ssl\Parser\KeyParser();
-
-$rawKey = new AcmePhp\Ssl\PrivateKey($pemString);
-$parsedKey = $parser-&gt;parse($rawKey);
-
-var_dump($parsedKey-&gt;getSource());
-var_dump($parsedKey-&gt;getKey());
-var_dump($parsedKey-&gt;getBits());
-var_dump($parsedKey-&gt;getType());
-var_dump($parsedKey-&gt;getDetails());</code></pre>
-<h2 id="api-documentation">API documentation</h2>
-<h3 id="ssl-entities">SSL entities</h3>
-<p>This library provides the following SSL entities:</p>
+            <h1 id="multi-domains-certificates">Multi-domains certificates</h1>
+<p>Let's Encrypt and most ACME servers are able to provide multi-domain certificates. Such certificates
+will be usable for multiple domains as a single file, which can be useful in many cases (for instance to
+use the same certificate for <code>yourdomain.org</code> and <code>www.yourdomain.org</code>).</p>
+<h2 id="obtain-a-multi-domain-certificate">Obtain a multi-domain certificate</h2>
+<p>The process of obtaining a multi-domain certificate is almost the same as
+<a href="/documentation/getting-started/2-obtain-certificate.html">getting one for a single domain</a>.</p>
+<p>The only difference is when you use the <code>request</code> command, to add the other domains you want to support:</p>
+<pre><code class="language-console">php acmephp.phar request yourdomain.org -a www.yourdomain.org -a anotherdomain.org</code></pre>
+<p><strong>Note</strong>: you need to be the authorized owner of all the domains you request this way. In this case, it means
+you have to run the <code>authorize</code> and <code>check</code> commands for the domains <code>yourdomain.org</code>, <code>www.yourdomain.org</code>
+and <code>anotherdomain.org</code> before being able to request the multi-domains certificate.</p>
+<p>The process will be the same as with a simple certificate: the command will ask you some informations, request
+the certificate to the ACME server and store it under the <code>~/.acmephp</code> directory.</p>
+<p>The first domain will be considered the main domain of the certificate and any additionnal domain (provided using <code>-a</code>)
+will be considered an alternate domain. This means that Acme PHP will store all the certificate informations under the
+main domain (even if the certificate is a multi-domain one). In our case, this means 6 files will be created in the
+storage directory:</p>
 <ul>
-<li><strong>PrivateKey</strong>: a private key</li>
-<li><strong>PublicKey</strong>: a public key</li>
-<li><strong>ParsedKey</strong>: data resulting of the decoding of a key (public or private)</li>
-<li><strong>KeyPair</strong>: a couple of public and private key</li>
-<li><strong>Certificate</strong>: a PEM certificate string (an encoded certificate)</li>
-<li><strong>ParsedCertificate</strong>: data resulting of the decoding of a parsed certificate</li>
-<li><strong>DistinguishedName</strong>: required data used to generate a Certificate Request Signing</li>
-<li><strong>CertificateRequest</strong>: required data used to request a certificate</li>
-<li><strong>CertificateResponse</strong>: the result of a certificate request</li>
+<li><strong>The full-chain certificate</strong> at <code>~/.acmephp/master/certs/yourdomain.org/fullchain.pem</code></li>
+<li><strong>The chain alone</strong> at <code>~/.acmephp/master/certs/yourdomain.org/chain.pem</code></li>
+<li><strong>The certificate alone</strong> at <code>~/.acmephp/master/certs/yourdomain.org/cert.pem</code></li>
+<li><strong>The combined certificate</strong> at <code>~/.acmephp/master/certs/yourdomain.org/combined.pem</code></li>
+<li><strong>The certificate private key</strong> at <code>~/.acmephp/master/private/yourdomain.org/private.pem</code></li>
+<li><strong>The certificate public key</strong> at <code>~/.acmephp/master/private/yourdomain.org/public.pem</code></li>
 </ul>
-<p>These entities are the objects you will receive from the services provided by this library.</p>
-<h3 id="generators">Generators</h3>
-<p>Generators are under <code>AcmePhp\Ssl\Generator</code> namespace.</p>
-<ul>
-<li><strong>KeyPairGenerator</strong> generates a <strong>KeyPair</strong> entity (using OpenSSL functions)</li>
-</ul>
-<h3 id="parsers">Parsers</h3>
-<p>Parsers are under <code>AcmePhp\Ssl\Parser</code> namespace.</p>
-<ul>
-<li><strong>CertificateParser</strong> parses certificates (<strong>Certificate</strong> entities) and return <strong>ParsedCertificate</strong> entities</li>
-<li><strong>KeyParser</strong> parses keys (<strong>PrivateKey or PublicKey</strong> entities) and return <strong>ParsedKey</strong> entities</li>
-</ul>
-<h3 id="signers">Signers</h3>
-<p>Signers are under <code>AcmePhp\Ssl\Signer</code> namespace.</p>
-<ul>
-<li><strong>CertificateRequestSigner</strong> signs Certificate requests (CSR)</li>
-<li><strong>DataSigner</strong> signs custom data using a private key</li>
-</ul>
+<p>Check the <a href="/documentation/getting-started/2-obtain-certificate.html#4-get-your-certificate">single domain documentation</a>
+for more informations about these files.</p>
+<p><strong>Note</strong>: using the main domain as storage directory means that if you request another certificate with the same
+main domain, the previous one will be erased.</p>
+<p>Once requested, if you run the <code>status</code> command, you will see the following:</p>
+<pre><code class="language-console">+-------------------------+----------------------------+---------------------+---------------------+----------------+
+| Domain                  | Issuer                     | Valid from          | Valid to            | Needs renewal? |
++-------------------------+----------------------------+---------------------+---------------------+----------------+
+| yourdomain.org          | Let's Encrypt Authority X3 | 2016-09-23 10:12:00 | 2016-12-22 10:12:00 | No             |
+|  ├── www.yourdomain.org |                            |                     |                     |                |
+|  └── anotherdomain.org  |                            |                     |                     |                |
++-------------------------+----------------------------+---------------------+---------------------+----------------+</code></pre>
+<h2 id="renew-a-multi-domain-certificate">Renew a multi-domain certificate</h2>
+<p>The process is the same as for a single domain certificate: re-run the request command:</p>
+<pre><code class="language-console">php acmephp.phar request yourdomain.org -a www.yourdomain.org -a anotherdomain.org</code></pre>
         </div>
 
         <div class="clearfix"></div>

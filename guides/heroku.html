@@ -48,36 +48,42 @@
             <nav role="navigation">
                 <ul class="doc-menu-list">
                                         <li>
-                        <h4 class="doc-menu-header">Command line tool</h4>
+                        <h4 class="doc-menu-header">Getting started</h4>
 
                         <ul class="doc-menu-sub">
                                                             <li class="">
-                                    <a href="https://acmephp.github.io/documentation/">
-                                        Introduction and installation
+                                    <a href="https://acmephp.github.io/documentation/getting-started/1-installation.html">
+                                        1. Installation
                                     </a>
                                 </li>
                                                             <li class="">
-                                    <a href="https://acmephp.github.io/documentation/cli/get-certificate.html">
-                                        Get a certificate
+                                    <a href="https://acmephp.github.io/documentation/getting-started/2-obtain-certificate.html">
+                                        2. Obtain a certificate
                                     </a>
                                 </li>
                                                             <li class="">
-                                    <a href="https://acmephp.github.io/documentation/cli/webserver.html">
-                                        Configure your webserver
+                                    <a href="https://acmephp.github.io/documentation/getting-started/3-configure-webserver.html">
+                                        3. Configure your webserver
                                     </a>
                                 </li>
                                                             <li class="">
-                                    <a href="https://acmephp.github.io/documentation/cli/automatic-renewal.html">
-                                        Configure automatic renewal with monitoring
+                                    <a href="https://acmephp.github.io/documentation/getting-started/4-automatic-renewal.html">
+                                        4. Setup automatic renewal
                                     </a>
                                 </li>
+                                                    </ul>
+                    </li>
+                                        <li>
+                        <h4 class="doc-menu-header">Guides</h4>
+
+                        <ul class="doc-menu-sub">
                                                             <li class="">
-                                    <a href="https://acmephp.github.io/documentation/cli/get-multidomain-certificate.html">
+                                    <a href="https://acmephp.github.io/documentation/guides/multidomain-certificates.html">
                                         Multi-domain certificates
                                     </a>
                                 </li>
-                                                            <li class="current">
-                                    <a href="https://acmephp.github.io/documentation/cli/dns-challenge.html">
+                                                            <li class="">
+                                    <a href="https://acmephp.github.io/documentation/guides/dns-challenge.html">
                                         Prove you own a domain using DNS
                                     </a>
                                 </li>
@@ -127,40 +133,8 @@
                 </a>
             </div>
 
-            <h1 id="use-the-dns-challenge-to-prove-you-own-a-domain">Use the DNS challenge to prove you own a domain</h1>
-<p>By default, Acme PHP will use a HTTP challenge to prove you own a domain: you will create a file the ACME server
-will access to verify the token you exposed.</p>
-<p>However it is possible to use DNS to check your ownership over a domain: instead of exposing a file, you will expose
-a TXT field.</p>
-<h2 id="get-the-token-to-expose">Get the token to expose</h2>
-<p>To use DNS challenge, run the authorize command with the <code>--solver dns</code> argument:</p>
-<pre><code class="language-console">$ php acmephp.phar authorize --solver dns yourdomain.org
-
-The authorization token was successfully fetched!
-    Add the following TXT record to your DNS zone
-        Domain: _acme-challenge.yourdomain.org.
-        TXT value: zExIQaKdxouvZ6rbpYApsawiwgINj3zbmXym-KhuNsA
-
-    Wait for the propagation before moving to the next step
-    Tips: Use the following command to check the propagation
-
-        host -t TXT _acme-challenge.yourdomain.org.
-
-Then, you can ask to the CA to check the challenge!
-    Call the check command to ask the server to check your URL:
-
-    php acmephp.phar check -s dns yourdomain.org</code></pre>
-<h2 id="add-a-dns-txt-field-for-the-token">Add a DNS TXT field for the token</h2>
-<p>You have now to create a DNS TXT field for the token:</p>
-<pre><code>Add the following TXT record to your DNS zone
-    Domain: _acme-challenge.yourdomain.org.
-    TXT value: zExIQaKdxouvZ6rbpYApsawiwgINj3zbmXym-KhuNsA</code></pre>
-<h2 id="ask-for-the-server-to-check-your-proof">Ask for the server to check your proof</h2>
-<p>Once done, wait a few minutes for DNS propagation. When the field is ready, run
-the check command with the <code>--solver dns</code> argument:</p>
-<pre><code class="language-console">php acmephp.phar check --solver dns yourdomain.org</code></pre>
-<hr />
-<p>Next: <a href="/documentation/cli/get-certificate.html#4-get-your-certificate">Continue the process to get the certificate</a></p>
+            <h1 id="update-your-heroku-certificate">Update your Heroku certificate</h1>
+<p>TODO</p>
         </div>
 
         <div class="clearfix"></div>

@@ -48,36 +48,42 @@
             <nav role="navigation">
                 <ul class="doc-menu-list">
                                         <li>
-                        <h4 class="doc-menu-header">Command line tool</h4>
+                        <h4 class="doc-menu-header">Getting started</h4>
 
                         <ul class="doc-menu-sub">
                                                             <li class="">
-                                    <a href="https://acmephp.github.io/documentation/">
-                                        Introduction and installation
+                                    <a href="https://acmephp.github.io/documentation/getting-started/1-installation.html">
+                                        1. Installation
                                     </a>
                                 </li>
                                                             <li class="">
-                                    <a href="https://acmephp.github.io/documentation/cli/get-certificate.html">
-                                        Get a certificate
+                                    <a href="https://acmephp.github.io/documentation/getting-started/2-obtain-certificate.html">
+                                        2. Obtain a certificate
                                     </a>
                                 </li>
                                                             <li class="">
-                                    <a href="https://acmephp.github.io/documentation/cli/webserver.html">
-                                        Configure your webserver
-                                    </a>
-                                </li>
-                                                            <li class="current">
-                                    <a href="https://acmephp.github.io/documentation/cli/automatic-renewal.html">
-                                        Configure automatic renewal with monitoring
+                                    <a href="https://acmephp.github.io/documentation/getting-started/3-configure-webserver.html">
+                                        3. Configure your webserver
                                     </a>
                                 </li>
                                                             <li class="">
-                                    <a href="https://acmephp.github.io/documentation/cli/get-multidomain-certificate.html">
+                                    <a href="https://acmephp.github.io/documentation/getting-started/4-automatic-renewal.html">
+                                        4. Setup automatic renewal
+                                    </a>
+                                </li>
+                                                    </ul>
+                    </li>
+                                        <li>
+                        <h4 class="doc-menu-header">Guides</h4>
+
+                        <ul class="doc-menu-sub">
+                                                            <li class="">
+                                    <a href="https://acmephp.github.io/documentation/guides/multidomain-certificates.html">
                                         Multi-domain certificates
                                     </a>
                                 </li>
-                                                            <li class="">
-                                    <a href="https://acmephp.github.io/documentation/cli/dns-challenge.html">
+                                                            <li class="current">
+                                    <a href="https://acmephp.github.io/documentation/guides/dns-challenge.html">
                                         Prove you own a domain using DNS
                                     </a>
                                 </li>
@@ -127,60 +133,38 @@
                 </a>
             </div>
 
-            <h1 id="configure-automatic-renewal-with-monitoring">Configure automatic renewal (with monitoring)</h1>
-<p>An awesome feature coming with Let's Encrypt automation is the possibility of automatically renew your certificates.
-Acme PHP was built from the beginning with the idea to be easy to put in a CRON.</p>
-<h2 id="create-the-cron">Create the CRON</h2>
-<p>The easiest part is to create the CRON.</p>
-<p>Acme PHP is smart enough to know when to renew a certificate: you don't need to think carefully when to schedule your
-CRON task, simply run it every day and Acme PHP will check if the certificate needs renewal.</p>
-<p><strong>Note:</strong> a vast majority of webservers requires a restart or a reload after a certificate update, therefore you
-should run your CRON as root. You can also create two separate CRON if you don't want to execute Acme PHP as root.</p>
-<p>Here is an example:</p>
-<pre><code>0 0 * * * php /home/youruser/acmephp.phar request yourdomain.org &gt;/dev/null 2&gt;&amp;1 &amp;&amp; service nginx reload</code></pre>
-<p>You may also want to save the output to a log file (note that monitoring is much more powerful though):</p>
-<pre><code>0 0 * * * php /home/youruser/acmephp.phar request yourdomain.org &gt; /var/log/acmephp.log &amp;&amp; service nginx reload</code></pre>
-<h2 id="configure-monitoring">Configure monitoring</h2>
-<p>A very powerful feature of Acme PHP is monitoring: the CLI client will warn you when a renewal failed. Different
-alerts are available, such as e-mail or Slack.</p>
-<p>To enable monitoring, you need to edit the Acme PHP configuration file (<code>~/.acmephp/acmephp.conf</code>):</p>
-<pre><code class="language-yaml">###################################################################
-# Monitoring
-#
-# This section let you configure a simple monitoring mechanism that
-# will warn you if an error occurs during a CRON job.
-#
+            <h1 id="use-the-dns-challenge-to-prove-you-own-a-domain">Use the DNS challenge to prove you own a domain</h1>
+<p>By default, Acme PHP will use a HTTP challenge to prove you own a domain: you will create a file the ACME server
+will access to verify the token you exposed.</p>
+<p>However it is possible to use DNS to check your ownership over a domain: instead of exposing a file, you will expose
+a TXT field.</p>
+<h2 id="get-the-token-to-expose">Get the token to expose</h2>
+<p>To use DNS challenge, run the authorize command with the <code>--solver dns</code> argument:</p>
+<pre><code class="language-console">$ php acmephp.phar authorize --solver dns yourdomain.org
 
-monitoring: ~   # Monitoring is disabled by default
+The authorization token was successfully fetched!
+    Add the following TXT record to your DNS zone
+        Domain: _acme-challenge.yourdomain.org.
+        TXT value: zExIQaKdxouvZ6rbpYApsawiwgINj3zbmXym-KhuNsA
 
-# You can enabled it by configuring at least one alert handler.
-# You can change the default handler level to decide when to be alerted
-# (only when an error occurs or every time the CRON is started).
-#monitoring:
-#    email:   # Only SMTP(S) support for now
-#        to: galopintitouan@gmail.com
-#        host: smtp.example.com
-#        # port: 25
-#        # username: ~
-#        # password: ~
-#        # encryption: ~
-#        # subject: An error occured during Acme PHP CRON renewal
-#        # level: error     # By default, only on error for email handler
-#
-#    slack:
-#        token: your_token
-#        channel: #general
-#        # username: Acme PHP
-#        # level: info      # By default, on every CRON for slack handler</code></pre>
-<p>This configuration is quite straight-forward: simply remove the <code>monitoring: ~</code> line, uncomment the monitoring part
-and edit it to your needs.</p>
-<p>Note that there are two levels for monitoring alert handlers:</p>
-<ul>
-<li><em>info</em> level means that the handler will be triggered at every renewal, even if it succeeded ;</li>
-<li><em>error</em> level means that the handler will be triggered only if an error occurs during renewal ;</li>
-</ul>
-<hr />
-<p>Next: <a href="/documentation/cli/get-multidomain-certificate.html">Multi-domain certificates</a></p>
+    Wait for the propagation before moving to the next step
+    Tips: Use the following command to check the propagation
+
+        host -t TXT _acme-challenge.yourdomain.org.
+
+Then, you can ask to the CA to check the challenge!
+    Call the check command to ask the server to check your URL:
+
+    php acmephp.phar check -s dns yourdomain.org</code></pre>
+<h2 id="add-a-dns-txt-field-for-the-token">Add a DNS TXT field for the token</h2>
+<p>You have now to create a DNS TXT field for the token:</p>
+<pre><code>Add the following TXT record to your DNS zone
+    Domain: _acme-challenge.yourdomain.org.
+    TXT value: zExIQaKdxouvZ6rbpYApsawiwgINj3zbmXym-KhuNsA</code></pre>
+<h2 id="ask-for-the-server-to-check-your-proof">Ask for the server to check your proof</h2>
+<p>Once done, wait a few minutes for DNS propagation. When the field is ready, run
+the check command with the <code>--solver dns</code> argument:</p>
+<pre><code class="language-console">php acmephp.phar check --solver dns yourdomain.org</code></pre>
         </div>
 
         <div class="clearfix"></div>
