@@ -39,6 +39,10 @@ The principle is quite simple:
 - You ask the server for a token and expose it on a specific URL given by the server
 - The server check that URL and verify the token is properly exposed there
 
+**Note:** This technique is called HTTP checking as it uses a HTTP request to check your ownership.
+You can also use [DNS checking](/documentation/cli/dns-challenge.html) which uses a DNS TXT field to expose the token
+(it may be easier in your specific context).
+
 Using this technique, you proved your server is responding behind the concerned domain.
 
 **Note:** You only need to prove once that you own a domain (certificates renewals won't require it), as long as
