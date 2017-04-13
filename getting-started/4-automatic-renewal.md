@@ -26,7 +26,7 @@ Here is an example:
 You may also want to save the output to a log file (note that monitoring is much more powerful though):
 
 ```
-0 0 * * * php /home/youruser/acmephp.phar request yourdomain.org > /var/log/acmephp.log && service nginx reload
+0 0 * * * php /home/youruser/acmephp.phar request yourdomain.org >> /var/log/acmephp.log && service nginx reload
 ```
 
 ## Configure monitoring
