@@ -16,6 +16,19 @@ you will be able to tweak the configuration for your audience.
 
 The following configuration examples are based on this tool.
 
+## Apache 2.2.32
+
+```
+<VirtualHost *:443>
+    ...
+    SSLEngine on
+    SSLCertificateFile      /home/youruser/.acmephp/master/certs/yourdomain.org/cert.pem
+    SSLCertificateKeyFile   /home/youruser/.acmephp/master/private/yourdomain.org/private.pem
+    SSLCertificateChainFile /home/youruser/.acmephp/master/certs/yourdomain.org/fullchain.pem
+    ...
+</VirtualHost>
+```
+
 ## Apache 2.4.18
 
 ```
@@ -37,7 +50,7 @@ server {
 
     ssl_certificate /home/youruser/.acmephp/master/certs/yourdomain.org/fullchain.pem;
     ssl_certificate_key /home/youruser/.acmephp/master/private/yourdomain.org/private.pem;
-    
+
     ....
 }
 ```
