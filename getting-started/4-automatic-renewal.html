@@ -145,7 +145,7 @@ should run your CRON as root. You can also create two separate CRON if you don't
 <p>Here is an example:</p>
 <pre><code>0 0 * * * php /home/youruser/acmephp.phar request yourdomain.org &gt;/dev/null 2&gt;&amp;1 &amp;&amp; service nginx reload</code></pre>
 <p>You may also want to save the output to a log file (note that monitoring is much more powerful though):</p>
-<pre><code>0 0 * * * php /home/youruser/acmephp.phar request yourdomain.org &gt; /var/log/acmephp.log &amp;&amp; service nginx reload</code></pre>
+<pre><code>0 0 * * * php /home/youruser/acmephp.phar request yourdomain.org &gt;&gt; /var/log/acmephp.log &amp;&amp; service nginx reload</code></pre>
 <h2 id="configure-monitoring">Configure monitoring</h2>
 <p>A very powerful feature of Acme PHP is monitoring: the CLI client will warn you when a renewal failed. Different
 alerts are available, such as e-mail or Slack.</p>

@@ -141,6 +141,15 @@
 <p>We recommand you to use it as it will generate for you a secure and complete configuration and
 you will be able to tweak the configuration for your audience.</p>
 <p>The following configuration examples are based on this tool.</p>
+<h2 id="apache-2232">Apache 2.2.32</h2>
+<pre><code>&lt;VirtualHost *:443&gt;
+    ...
+    SSLEngine on
+    SSLCertificateFile      /home/youruser/.acmephp/master/certs/yourdomain.org/cert.pem
+    SSLCertificateKeyFile   /home/youruser/.acmephp/master/private/yourdomain.org/private.pem
+    SSLCertificateChainFile /home/youruser/.acmephp/master/certs/yourdomain.org/fullchain.pem
+    ...
+&lt;/VirtualHost&gt;</code></pre>
 <h2 id="apache-2418">Apache 2.4.18</h2>
 <pre><code>&lt;VirtualHost *:443&gt;
     ...
