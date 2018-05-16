@@ -11,7 +11,7 @@ use the same certificate for `yourdomain.org` and `www.yourdomain.org`).
 ## Obtain a multi-domain certificate
 
 The process of obtaining a multi-domain certificate is almost the same as
-[getting one for a single domain](/documentation/getting-started/2-obtain-certificate.html).
+[getting one for a single domain](/documentation/getting-started/2-obtain-certificate-easy.html).
 
 The only difference is when you use the `request` command, to add the other domains you want to support:
 
@@ -30,15 +30,15 @@ The first domain will be considered the main domain of the certificate and any a
 will be considered an alternate domain. This means that Acme PHP will store all the certificate informations under the
 main domain (even if the certificate is a multi-domain one). In our case, this means 6 files will be created in the
 storage directory:
-  
-- **The full-chain certificate** at `~/.acmephp/master/certs/yourdomain.org/fullchain.pem`
-- **The chain alone** at `~/.acmephp/master/certs/yourdomain.org/chain.pem`
-- **The certificate alone** at `~/.acmephp/master/certs/yourdomain.org/cert.pem`
-- **The combined certificate** at `~/.acmephp/master/certs/yourdomain.org/combined.pem`
-- **The certificate private key** at `~/.acmephp/master/private/yourdomain.org/private.pem`
-- **The certificate public key** at `~/.acmephp/master/private/yourdomain.org/public.pem`
 
-Check the [single domain documentation](/documentation/getting-started/2-obtain-certificate.html#4-get-your-certificate)
+- **The full-chain certificate** at `~/.acmephp/master/certs/yourdomain.org/public/fullchain.pem`
+- **The chain alone** at `~/.acmephp/master/certs/yourdomain.org/public/chain.pem`
+- **The certificate alone** at `~/.acmephp/master/certs/yourdomain.org/public/cert.pem`
+- **The combined certificate** at `~/.acmephp/master/certs/yourdomain.org/private/combined.pem`
+- **The certificate private key** at `~/.acmephp/master/certs/yourdomain.org/private/key.private.pem`
+- **The certificate public key** at `~/.acmephp/master/certs/yourdomain.org/private/key.public.pem`
+
+Check the [single domain documentation](/documentation/getting-started/2-obtain-certificate-easy.html#2-get-your-certificate)
 for more informations about these files.
 
 **Note**: using the main domain as storage directory means that if you request another certificate with the same

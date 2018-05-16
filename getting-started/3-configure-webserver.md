@@ -22,9 +22,9 @@ The following configuration examples are based on this tool.
 <VirtualHost *:443>
     ...
     SSLEngine on
-    SSLCertificateFile      /home/youruser/.acmephp/master/certs/yourdomain.org/cert.pem
-    SSLCertificateKeyFile   /home/youruser/.acmephp/master/private/yourdomain.org/private.pem
-    SSLCertificateChainFile /home/youruser/.acmephp/master/certs/yourdomain.org/fullchain.pem
+    SSLCertificateFile      /home/youruser/.acmephp/master/certs/yourdomain.org/public/cert.pem
+    SSLCertificateKeyFile   /home/youruser/.acmephp/master/certs/yourdomain.org/private/key.private.pem
+    SSLCertificateChainFile /home/youruser/.acmephp/master/certs/yourdomain.org/public/fullchain.pem
     ...
 </VirtualHost>
 ```
@@ -35,8 +35,8 @@ The following configuration examples are based on this tool.
 <VirtualHost *:443>
     ...
     SSLEngine on
-    SSLCertificateFile      /home/youruser/.acmephp/master/certs/yourdomain.org/fullchain.pem
-    SSLCertificateKeyFile   /home/youruser/.acmephp/master/private/yourdomain.org/private.pem
+    SSLCertificateFile      /home/youruser/.acmephp/master/certs/yourdomain.org/public/fullchain.pem
+    SSLCertificateKeyFile   /home/youruser/.acmephp/master/certs/yourdomain.org/private/key.private.pem
     ...
 </VirtualHost>
 ```
@@ -48,8 +48,8 @@ server {
     listen 443 ssl http2;
     listen [::]:443 ssl http2;
 
-    ssl_certificate /home/youruser/.acmephp/master/certs/yourdomain.org/fullchain.pem;
-    ssl_certificate_key /home/youruser/.acmephp/master/private/yourdomain.org/private.pem;
+    ssl_certificate     /home/youruser/.acmephp/master/certs/yourdomain.org/public/fullchain.pem;
+    ssl_certificate_key /home/youruser/.acmephp/master/certs/yourdomain.org/private/key.private.pem;
 
     ....
 }
@@ -60,7 +60,7 @@ server {
 ```
 $SERVER["socket"] == ":443" {
     ...
-    ssl.pemfile = "/home/youruser/.acmephp/master/certs/yourdomain.org/combined.pem"
+    ssl.pemfile = "/home/youruser/.acmephp/master/certs/yourdomain.org/private/combined.pem"
     ...
 }
 ```
@@ -70,7 +70,7 @@ $SERVER["socket"] == ":443" {
 ```
 frontend ft_test
     ...
-    bind    :443 ssl crt /home/youruser/.acmephp/master/certs/yourdomain.org/combined.pem
+    bind    :443 ssl crt /home/youruser/.acmephp/master/certs/yourdomain.org/private/combined.pem
     ...
 ```
 

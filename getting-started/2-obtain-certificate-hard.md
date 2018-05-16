@@ -7,6 +7,9 @@ currentMenu: getting-started-obtain-certificate
 Now Acme PHP is available on your system (`php acmephp.phar --version` should display its version),
 you can start requesting certificates for your domains using it.
 
+**Note:** This is the long way to abtain a certificate. The
+[recommended way describe here](/documentation/getting-started/2-obtain-certificate-easy.html)
+
 Several steps are required to do so (note that only the 4th one will be necessary during renewal):
 
 1. [Register on the Let's Encrypt/ACME server](#1-register-on-the-lets-encryptacme-server)
@@ -29,7 +32,7 @@ php acmephp.phar register youremail@example.com
 
 This command will do three main things:
 - create a default configuration file `~/.acmephp/acmephp.conf` that you may edit for advanced usages of Acme PHP
-- generate a key pair for your account and store it in `~/.acmephp/master/private/_account`
+- generate a key pair for your account and store it in `~/.acmephp/master/account`
 - register your account key in the Let's Encrypt/ACME server, associating it with your e-mail address
 
 ## 2. Prove you own the domain
@@ -47,8 +50,7 @@ You can also use [DNS checking](/documentation/guides/dns-challenge.html) which 
 
 Using this technique, you proved your server is responding behind the concerned domain.
 
-**Note:** You only need to prove once that you own a domain (certificates renewals won't require it), as long as
-you keep the same account key.
+**Note:** You'll need to periodically prove that you own a domain (certificates renewals may require a new token).
 
 The first step is to get and expose the token. Run the following:
 
@@ -88,20 +90,20 @@ This command will ask you required informations for the certificate, request it 
 the `~/.acmephp` storage directory.
 
 6 files will be created in the storage directory:
-  
+
 - **The full-chain certificate** at `~/.acmephp/master/certs/yourdomain.org/fullchain.pem`.
   This file is the certificate itself. You probably want to use this file in your webserver configuration as it
   includes all the issuers chain for a better compatibility with old devices.
 
 - **The certificate private key** at `~/.acmephp/master/private/yourdomain.org/private.pem`.
   This file is usually required by the webserver.
-  
+
 - **The chain alone** at `~/.acmephp/master/certs/yourdomain.org/chain.pem`.
   Some webservers requires a separated chain and certificate. This is the chain part, if you need it.
-  
+
 - **The certificate alone** at `~/.acmephp/master/certs/yourdomain.org/cert.pem`.
   Some webservers requires a separated chain and certificate. This is the certificate part, if you need it.
-  
+
 - **The combined certificate** at `~/.acmephp/master/certs/yourdomain.org/combined.pem`.
   Some webservers requires a single file combining the full-chain and the certificate private key.
   This is it, if you need it.
