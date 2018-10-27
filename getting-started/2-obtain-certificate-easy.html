@@ -56,7 +56,7 @@
                                         1. Installation
                                     </a>
                                 </li>
-                                                            <li class="">
+                                                            <li class="current">
                                     <a href="https://acmephp.github.io/documentation/getting-started/2-obtain-certificate-easy.html">
                                         2. Obtain a certificate
                                     </a>
@@ -93,7 +93,7 @@
                         <h4 class="doc-menu-header">ACME protocol implementation</h4>
 
                         <ul class="doc-menu-sub">
-                                                            <li class="current">
+                                                            <li class="">
                                     <a href="https://acmephp.github.io/documentation/core/introduction.html">
                                         Introduction
                                     </a>
@@ -133,18 +133,61 @@
                 </a>
             </div>
 
-            <h1 id="acme-php-core">Acme PHP Core</h1>
-<p>Acme PHP Core is the ACME protocol implementation in PHP used by othere Acme PHP repositories
-to interact with Let's Encrypt.</p>
-<h2 id="when-use-acme-php-core">When use Acme PHP Core?</h2>
-<p>You usually will want to use either the Acme PHP CLI client or an implementation for your
-favorite framework.</p>
-<p>However, in some cases, you may want to manage your SSL certificates from the application itself.
-In these cases, this library will be useful to you.</p>
-<p>Acme PHP Core does nothing more than implementing the
-<a href="https://github.com/letsencrypt/acme-spec">Let's Encrypt/ACME protocol</a> : the generated SSL keys
-and certificates are stored in memory and then given to your script. You are the one in charge
-of storing them somewhere.</p>
+            <h1 id="obtain-a-certificate">Obtain a certificate</h1>
+<p>Now Acme PHP is available on your system (<code>php acmephp.phar --version</code> should display its version),
+you can start requesting certificates for your domains using it.</p>
+<p><strong>Note:</strong> This is the recommended way to request a certificate, but you can
+achieve the same purpose by following the long way and <a href="/documentation/getting-started/2-obtain-certificate-hard.html">running several
+commands one by one</a></p>
+<h2 id="1-create-a-configuration-file">1. Create a configuration file</h2>
+<pre><code class="language-yaml">contact_email: contact@company
+
+defaults:
+  distinguished_name:
+      country: FR
+      locality: Paris
+      organization_name: MyCompany
+  solver: http
+
+certificates:
+  - domain: example.com
+    distinguished_name:
+      organization_name: MyCompany Internal
+    solver: route53
+    subject_alternative_names:
+      - '*.example.com'
+      - www.subdomain.example.com
+    install:
+      - action: install_aws_elb
+        region: eu-west-1
+        loadbalancer: my_elb
+        listener: 443
+  - domain: www.example.com
+    solver:
+      name: http-file
+      adapter: ftp       # ftp or sftp or local, see https://flysystem.thephpleague.com/
+      root: /var/www/
+      host: ftp.example.com
+      username: username
+      password: password
+      # port: 21
+      # passive: true
+      # ssl: true
+      # timeout: 30
+      # private_key: path/to/or/contents/of/privatekey</code></pre>
+<h2 id="2-get-your-certificate">2. Get your certificate</h2>
+<pre><code class="language-console">php acmephp.phar run config.yml</code></pre>
+<p>This command will do many things:</p>
+<ul>
+<li>register your account key in the Let's Encrypt/ACME server, associating it with your e-mail address</li>
+<li>for each certificate configured in the file</li>
+<li>ask the ACME server for a token and ask to the configured solver to expose the token</li>
+<li>locally check that the token is well exposed</li>
+<li>ask the ACME server to validate the domain</li>
+<li>ask the ACME server to generate a certificate</li>
+<li>install the certificate by using the configured action</li>
+</ul>
+<p>Next: <a href="/documentation/getting-started/3-configure-webserver.html">Configure your webserver</a></p>
         </div>
 
         <div class="clearfix"></div>

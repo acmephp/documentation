@@ -57,7 +57,7 @@
                                     </a>
                                 </li>
                                                             <li class="current">
-                                    <a href="https://acmephp.github.io/documentation/getting-started/2-obtain-certificate.html">
+                                    <a href="https://acmephp.github.io/documentation/getting-started/2-obtain-certificate-easy.html">
                                         2. Obtain a certificate
                                     </a>
                                 </li>
@@ -136,6 +136,8 @@
             <h1 id="obtain-a-certificate">Obtain a certificate</h1>
 <p>Now Acme PHP is available on your system (<code>php acmephp.phar --version</code> should display its version),
 you can start requesting certificates for your domains using it.</p>
+<p><strong>Note:</strong> This is the long way to abtain a certificate. The
+<a href="/documentation/getting-started/2-obtain-certificate-easy.html">recommended way describe here</a></p>
 <p>Several steps are required to do so (note that only the 4th one will be necessary during renewal):</p>
 <ol>
 <li><a href="#1-register-on-the-lets-encryptacme-server">Register on the Let's Encrypt/ACME server</a></li>
@@ -153,7 +155,7 @@ used for future exchanges with Let's Encrypt to prove your identity.</p>
 <p>This command will do three main things:</p>
 <ul>
 <li>create a default configuration file <code>~/.acmephp/acmephp.conf</code> that you may edit for advanced usages of Acme PHP</li>
-<li>generate a key pair for your account and store it in <code>~/.acmephp/master/private/_account</code></li>
+<li>generate a key pair for your account and store it in <code>~/.acmephp/master/account</code></li>
 <li>register your account key in the Let's Encrypt/ACME server, associating it with your e-mail address</li>
 </ul>
 <h2 id="2-prove-you-own-the-domain">2. Prove you own the domain</h2>
@@ -168,8 +170,7 @@ the domain.</p>
 You can also use <a href="/documentation/guides/dns-challenge.html">DNS checking</a> which uses a DNS TXT field to expose the token
 (it may be easier in your specific context).</p>
 <p>Using this technique, you proved your server is responding behind the concerned domain.</p>
-<p><strong>Note:</strong> You only need to prove once that you own a domain (certificates renewals won't require it), as long as
-you keep the same account key.</p>
+<p><strong>Note:</strong> You'll need to periodically prove that you own a domain (certificates renewals may require a new token).</p>
 <p>The first step is to get and expose the token. Run the following:</p>
 <pre><code class="language-console"># Get a token to expose
 php acmephp.phar authorize yourdomain.org

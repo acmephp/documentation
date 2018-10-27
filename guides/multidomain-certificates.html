@@ -57,7 +57,7 @@
                                     </a>
                                 </li>
                                                             <li class="">
-                                    <a href="https://acmephp.github.io/documentation/getting-started/2-obtain-certificate.html">
+                                    <a href="https://acmephp.github.io/documentation/getting-started/2-obtain-certificate-easy.html">
                                         2. Obtain a certificate
                                     </a>
                                 </li>
@@ -139,7 +139,7 @@ will be usable for multiple domains as a single file, which can be useful in man
 use the same certificate for <code>yourdomain.org</code> and <code>www.yourdomain.org</code>).</p>
 <h2 id="obtain-a-multi-domain-certificate">Obtain a multi-domain certificate</h2>
 <p>The process of obtaining a multi-domain certificate is almost the same as
-<a href="/documentation/getting-started/2-obtain-certificate.html">getting one for a single domain</a>.</p>
+<a href="/documentation/getting-started/2-obtain-certificate-easy.html">getting one for a single domain</a>.</p>
 <p>The only difference is when you use the <code>request</code> command, to add the other domains you want to support:</p>
 <pre><code class="language-console">php acmephp.phar request yourdomain.org -a www.yourdomain.org -a anotherdomain.org</code></pre>
 <p><strong>Note</strong>: you need to be the authorized owner of all the domains you request this way. In this case, it means
@@ -152,14 +152,14 @@ will be considered an alternate domain. This means that Acme PHP will store all 
 main domain (even if the certificate is a multi-domain one). In our case, this means 6 files will be created in the
 storage directory:</p>
 <ul>
-<li><strong>The full-chain certificate</strong> at <code>~/.acmephp/master/certs/yourdomain.org/fullchain.pem</code></li>
-<li><strong>The chain alone</strong> at <code>~/.acmephp/master/certs/yourdomain.org/chain.pem</code></li>
-<li><strong>The certificate alone</strong> at <code>~/.acmephp/master/certs/yourdomain.org/cert.pem</code></li>
-<li><strong>The combined certificate</strong> at <code>~/.acmephp/master/certs/yourdomain.org/combined.pem</code></li>
-<li><strong>The certificate private key</strong> at <code>~/.acmephp/master/private/yourdomain.org/private.pem</code></li>
-<li><strong>The certificate public key</strong> at <code>~/.acmephp/master/private/yourdomain.org/public.pem</code></li>
+<li><strong>The full-chain certificate</strong> at <code>~/.acmephp/master/certs/yourdomain.org/public/fullchain.pem</code></li>
+<li><strong>The chain alone</strong> at <code>~/.acmephp/master/certs/yourdomain.org/public/chain.pem</code></li>
+<li><strong>The certificate alone</strong> at <code>~/.acmephp/master/certs/yourdomain.org/public/cert.pem</code></li>
+<li><strong>The combined certificate</strong> at <code>~/.acmephp/master/certs/yourdomain.org/private/combined.pem</code></li>
+<li><strong>The certificate private key</strong> at <code>~/.acmephp/master/certs/yourdomain.org/private/key.private.pem</code></li>
+<li><strong>The certificate public key</strong> at <code>~/.acmephp/master/certs/yourdomain.org/private/key.public.pem</code></li>
 </ul>
-<p>Check the <a href="/documentation/getting-started/2-obtain-certificate.html#4-get-your-certificate">single domain documentation</a>
+<p>Check the <a href="/documentation/getting-started/2-obtain-certificate-easy.html#2-get-your-certificate">single domain documentation</a>
 for more informations about these files.</p>
 <p><strong>Note</strong>: using the main domain as storage directory means that if you request another certificate with the same
 main domain, the previous one will be erased.</p>
