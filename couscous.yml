@@ -17,7 +17,7 @@ menu:
                     relativeUrl: getting-started/1-installation.html
                 getting-started-obtain-certificate:
                     text: 2. Obtain a certificate
-                    relativeUrl: getting-started/2-obtain-certificate.html
+                    relativeUrl: getting-started/2-obtain-certificate-easy.html
                 getting-started-configure-webserver:
                     text: 3. Configure your webserver
                     relativeUrl: getting-started/3-configure-webserver.html
