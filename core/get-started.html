@@ -139,7 +139,103 @@
 <p>Install this library using Composer:</p>
 <pre><code>composer require acmephp/core</code></pre>
 <h2 id="usage">Usage</h2>
-<p>TODO</p>
+<h3 id="1-create-a-secure-http-client">1. Create a secure HTTP client</h3>
+<p>A SecureHttpClient is a Guzzle HTTP client wrapper to send requests signed with the account KeyPair.</p>
+<pre><code class="language-php">&lt;?php
+
+use AcmePhp\Core\Http\Base64SafeEncoder;
+use AcmePhp\Core\Http\SecureHttpClientFactory;
+use AcmePhp\Core\Http\ServerErrorHandler;
+use AcmePhp\Ssl\KeyPair;
+use AcmePhp\Ssl\PrivateKey;
+use AcmePhp\Ssl\PublicKey;
+use AcmePhp\Ssl\Parser\KeyParser;
+use AcmePhp\Ssl\Signer\DataSigner;
+use GuzzleHttp\Client as GuzzleHttpClient;
+
+$secureHttpClientFactory = new SecureHttpClientFactory(
+    new GuzzleHttpClient(),
+    new Base64SafeEncoder(),
+    new KeyParser(),
+    new DataSigner(),
+    new ServerErrorHandler()
+);
+
+// $accountKeyPair instance of KeyPair
+$secureHttpClient = $secureHttpClientFactory-&gt;createSecureHttpClient($accountKeyPair);
+
+// See AcmePhp\Core\Http\SecureHttpClient for all available methods.</code></pre>
+<h3 id="generate-a-key-pair-if-needed">Generate a key pair if needed</h3>
+<p>If you don't already have a KeyPair, you can generate one:</p>
+<pre><code class="language-php">&lt;?php
+
+use AcmePhp\Ssl\Generator\KeyPairGenerator;
+
+$publicKeyPath = '/custom/path/to/keys/account.pub.pem';
+$privateKeyPath = '/custom/path/to/keys/account.pem';
+
+if (!file_exists($privateKeyPath)) {
+    $keyPairGenerator = new KeyPairGenerator();
+    $keyPair = $keyPairGenerator-&gt;generateKeyPair();
+
+    file_put_contents($publicKeyPath, $keyPair-&gt;getPublicKey()-&gt;getPEM());
+    file_put_contents($privateKeyPath, $keyPair-&gt;getPrivateKey()-&gt;getPEM());
+} else {
+    $publicKey = new PublicKey(file_get_contents($publicKeyPath));
+    $privateKey = new PrivateKey(file_get_contents($privateKeyPath));
+
+    $keyPair = new KeyPair($publicKey, $privateKey);
+}</code></pre>
+<h3 id="set-up-the-acme-client">Set up the ACME client</h3>
+<pre><code class="language-php">&lt;?php
+
+use AcmePhp\Core\AcmeClient;
+
+$secureHttpClient = $secureHttpClientFactory-&gt;createSecureHttpClient($keyPair);
+
+// Important, change to production LE directory for real certs!
+$acmeClient = new AcmeClient($secureHttpClient, 'https://acme-staging-v02.api.letsencrypt.org/directory');</code></pre>
+<p>See <code>AcmePhp\Core\AcmeClientInterface</code> and <code>AcmePhp\Core\AcmeClientV2Interface</code> for detailed
+explainations of each methods of the client.</p>
+<h3 id="create-new-account">Create new account</h3>
+<pre><code class="language-php">&lt;?php
+
+// registerAccount($agreement = null, $email = null)
+$acmeClient-&gt;registerAccount(null, 'testing@tester.com');</code></pre>
+<h3 id="request-authorization">Request authorization</h3>
+<pre><code class="language-php">&lt;?php
+
+// This will return a list of challenges that you can use to prove you own the domain.
+$authorizationChallenges = $acmeClient-&gt;requestAuthorization('mydomain.com');
+var_dump($authorizationChallenges);
+
+// You need to stage  your challenge response via DNS or HTTP before making the next call:
+// $acmeClient-&gt;challengeAuthorization($authorizationChallenges[0])</code></pre>
+<h3 id="generate-csr-and-private-key">Generate CSR and private key</h3>
+<pre><code class="language-php">&lt;?php
+
+$dn = new DistinguishedName('mydomain.com');
+
+$keyPairGenerator = new KeyPairGenerator();
+
+// Make a new key pair. We'll keep the private key as our cert key
+$domainKeyPair = $keyPairGenerator-&gt;generateKeyPair();
+
+// This is the private key
+var_dump($domainKeyPair-&gt;getPrivateKey()-&gt;getPem());
+
+// Generate CSR
+$csr = new CertificateRequest($dn, $domainKeyPair);</code></pre>
+<h3 id="request-certificate">Request certificate</h3>
+<pre><code class="language-php">&lt;?php
+
+$certificateResponse = $acmeClient-&gt;requestCertificate('mydomain.com', $csr);
+
+// This is the certificate (public key)
+var_dump($certificateResponse-&gt;getCertificate()-&gt;getPem());
+
+// For Let's Encrypt, you will need the intermediate too
+var_dump($certificateResponse-&gt;getCertificate()-&gt;getIssuerCertificate()-&gt;getPEM());</code></pre>
         </div>
 
         <div class="clearfix"></div>
