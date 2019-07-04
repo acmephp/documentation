@@ -7,10 +7,6 @@ currentMenu: getting-started-obtain-certificate
 Now Acme PHP is available on your system (`php acmephp.phar --version` should display its version),
 you can start requesting certificates for your domains using it.
 
-**Note:** This is the recommended way to request a certificate, but you can
-achieve the same purpose by following the long way and [running several
-commands one by one](/documentation/getting-started/2-obtain-certificate-hard.html)
-
 ## 1. Create a configuration file
 
 ``` yaml
