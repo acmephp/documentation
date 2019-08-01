@@ -36,6 +36,13 @@ certificates:
         region: eu-west-1
         loadbalancer: my_elb
         listener: 443
+  - domain: example.com
+    solver:
+      name: gandi
+      api_key: AAAAAAAAAAA # the API key could be obtained from Gandi.Net Admin Panel
+    subject_alternative_names:
+      - '*.example.com'
+      - www.subdomain.example.com
   - domain: www.example.com
     solver:
       name: http-file
