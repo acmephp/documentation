@@ -116,6 +116,7 @@ var_dump($authorizationChallenges);
 ``` php
 <?php
 
+use AcmePhp\Ssl\CertificateRequest;
 use AcmePhp\Ssl\DistinguishedName;
 
 $dn = new DistinguishedName('mydomain.com');
