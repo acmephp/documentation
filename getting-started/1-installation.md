@@ -34,4 +34,4 @@ php acmephp.phar --version
 
 ---------------------------------------------------------------------
 
-Next: [Obtain a certificate](/documentation/getting-started/2-obtain-certificate-easy.html)
+Next: [Obtain a certificate](/documentation/getting-started/2-obtain-certificate.html)
