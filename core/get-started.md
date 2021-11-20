@@ -47,7 +47,7 @@ $secureHttpClient = $secureHttpClientFactory->createSecureHttpClient($accountKey
 // See AcmePhp\Core\Http\SecureHttpClient for all available methods.
 ```
 
-### Generate a key pair if needed
+### 2. Generate a key pair if needed
 
 If you don't already have a KeyPair, you can generate one:
 
@@ -73,7 +73,7 @@ if (!file_exists($privateKeyPath)) {
 }
 ```
 
-### Set up the ACME client
+### 3. Set up the ACME client
 
 ``` php
 <?php
@@ -89,7 +89,7 @@ $acmeClient = new AcmeClient($secureHttpClient, 'https://acme-staging-v02.api.le
 See `AcmePhp\Core\AcmeClientInterface` and `AcmePhp\Core\AcmeClientV2Interface` for detailed
 explainations of each methods of the client.
 
-### Create new account
+### 4. Create new account
 
 ``` php
 <?php
@@ -98,7 +98,7 @@ explainations of each methods of the client.
 $acmeClient->registerAccount(null, 'testing@tester.com');
 ```
 
-### Request authorization
+### 5. Request authorization
 
 ``` php
 <?php
@@ -111,7 +111,7 @@ var_dump($authorizationChallenges);
 // $acmeClient->challengeAuthorization($authorizationChallenges[0])
 ```
 
-### Generate CSR and private key
+### 6. Generate CSR and private key
 
 ``` php
 <?php
@@ -133,7 +133,7 @@ var_dump($domainKeyPair->getPrivateKey()->getPem());
 $csr = new CertificateRequest($dn, $domainKeyPair);
 ```
 
-### Request certificate
+### 7. Request certificate
 
 ``` php
 <?php
