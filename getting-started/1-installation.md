@@ -20,7 +20,7 @@ If the last command display the Acme PHP version, you are ready to use Acme PHP.
 
 ## Use the latest development version
 
-While we strongly recommand you to use a stable (or at least pre-release) version, you can also use the latest
+While we strongly recommend you to use a stable (or at least pre-release) version, you can also use the latest
 development build if you need the latest features.
 
 You can install it by running the following commands:
